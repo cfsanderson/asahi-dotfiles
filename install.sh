@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # Fedora Asahi Linux Bootstrap Script
-# This script installs all packages, plugins, and dotfiles (https://github.com/cfsanderson/arch-dotfiles/)
+# This script installs all packages, plugins, and dotfiles (https://github.com/cfsanderson/asahi-dotfiles/)
 #
 
 # Exit immediately if a command exits with a non-zero status.
@@ -45,7 +45,7 @@ fi
 # --- 5. Stow All Dotfiles ---
 echo "-> Stowing all dotfiles..."
 # Run stow from a subshell to avoid changing the script's current directory
-(cd ~/Projects/arch-dotfiles/ && stow -R -t $HOME */)
+(cd ~/Projects/asahi-dotfiles/ && stow -R -t $HOME */)
 
 
 # --- 6. Set Zsh as Default Shell ---
