@@ -19,7 +19,7 @@ This directory contains the master color palette for all dotfiles configurations
 Import the CSS palette in your stylesheets:
 
 ```css
-@import "/home/caleb/Projects/arch-dotfiles/colors/gruvbox-material-palette.css";
+@import "/home/caleb/Projects/asahi-dotfiles/colors/gruvbox-material-palette.css";
 
 /* Use CSS variables */
 .my-element {
@@ -45,7 +45,7 @@ Import the CSS palette in your stylesheets:
 Import the GTK color definitions:
 
 ```css
-@import "/home/caleb/Projects/arch-dotfiles/colors/gruvbox-material-wofi.css";
+@import "/home/caleb/Projects/asahi-dotfiles/colors/gruvbox-material-wofi.css";
 
 /* Use GTK @define-color variables */
 window {
@@ -66,7 +66,7 @@ Source the shell palette in your scripts:
 
 ```bash
 #!/bin/bash
-source "/home/caleb/Projects/arch-dotfiles/colors/gruvbox-material-palette.sh"
+source "/home/caleb/Projects/asahi-dotfiles/colors/gruvbox-material-palette.sh"
 
 # Use color variables
 echo -e "${fg0}Primary text${reset}"
@@ -80,7 +80,7 @@ echo "general { col.active_border = $(hypr_color "$grey2") }"
 
 ```bash
 # In hyprland config files, source the palette and use helper functions
-source = /home/caleb/Projects/arch-dotfiles/colors/gruvbox-material-palette.sh
+source = /home/caleb/Projects/asahi-dotfiles/colors/gruvbox-material-palette.sh
 
 general {
     col.active_border = rgb(a89984)     # Use $grey2 value
@@ -182,7 +182,7 @@ demo_colors
 ### Waybar
 
 ```css
-@import "/home/caleb/Projects/arch-dotfiles/colors/gruvbox-material-palette.css";
+@import "/home/caleb/Projects/asahi-dotfiles/colors/gruvbox-material-palette.css";
 
 #workspaces button {
     color: var(--workspace-inactive);

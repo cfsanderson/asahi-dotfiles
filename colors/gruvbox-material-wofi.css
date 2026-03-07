@@ -33,7 +33,7 @@
 /*
  * Usage in wofi CSS files:
  * 
- * @import "/home/caleb/Projects/arch-dotfiles/colors/gruvbox-material-wofi.css";
+ * @import "/home/caleb/Projects/asahi-dotfiles/colors/gruvbox-material-wofi.css";
  * 
  * Then use the defined colors:
  * background-color: @base;

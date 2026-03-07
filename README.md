@@ -118,13 +118,13 @@ This is where this dotfiles repository takes over.
 
 2.  **Clone Your Dotfiles Repository (with Submodules):**
     ```bash
-    git clone --recurse-submodules https://github.com/cfsanderson/arch-dotfiles.git ~/Projects/arch-dotfiles
+    git clone --recurse-submodules https://github.com/cfsanderson/asahi-dotfiles.git ~/Projects/asahi-dotfiles
     ```
 
 3.  **Run the Automated Install Script:**
     This script enables COPR repos, installs DNF packages, installs Flatpak apps, and stows all dotfiles.
     ```bash
-    cd ~/Projects/arch-dotfiles
+    cd ~/Projects/asahi-dotfiles
     ./install.sh
     ```
 
@@ -139,7 +139,7 @@ These commands require `sudo` and modify system files in `/etc`. They must be do
 **a) Copy System-Level Configurations from Repo:**
 This command copies your captured `zram` configuration into the live system directory.
 ```bash
-sudo cp -r ~/Projects/arch-dotfiles/etc/* /etc/
+sudo cp -r ~/Projects/asahi-dotfiles/etc/* /etc/
 ```
 
 **b) Fix Wi-Fi Backend (Configure `iwd`):**
@@ -194,7 +194,7 @@ After this final reboot, the system should be ready to roll - a pre-rolled, pers
 ### Post install:
 - Connect to Wi-Fi for the first time using `nmtui`.
 - Open Neovim for the first time (`nv` alias or standard `nvim`) and the `lazy.nvim` plugin manager will automatically install all the required plugins. You will want to close and restart to see all the changes. Check out [this video](https://youtu.be/m8C0Cq9Uv9o?si=T4lvWKUjSLpFy-pZ) on getting started with it.
-- The `install.sh` script grabs all the packages in the `~/Projects/arch-dotfiles/packages/` directory and installs them for you. When you inevitably add more, there is a `fedorapack` alias in `~/Projects/arch-dotfiles/zsh/.config/zsh/oh-my-zsh/custom/aliases.zsh` that will rebuild these files and keep your packages up to date.
+- The `install.sh` script grabs all the packages in the `~/Projects/asahi-dotfiles/packages/` directory and installs them for you. When you inevitably add more, there is a `fedorapack` alias in `~/Projects/asahi-dotfiles/zsh/.config/zsh/oh-my-zsh/custom/aliases.zsh` that will rebuild these files and keep your packages up to date.
 	- Generates `packages-dnf.txt` (user-installed DNF packages), `packages-flatpak.txt` (Flatpak apps), and `packages-copr.txt` (enabled COPR repos)
 
 ## Customizing Colors and Themes
