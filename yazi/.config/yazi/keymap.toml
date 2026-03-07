@@ -124,7 +124,7 @@ keymap = [
 	{ on = [ ",", "r" ], run = "sort random --reverse=no",                      desc = "Sort randomly" },
 
 	# Goto
-	{ on = [ "g", "a" ],       run = "cd ~/Projects/arch-dotfiles/",    desc = "Go to arch-dotfiles directory" },
+	{ on = [ "g", "a" ],       run = "cd ~/Projects/asahi-dotfiles/",    desc = "Go to asahi-dotfiles directory" },
 	{ on = [ "g", "h" ],       run = "cd ~",             desc = "Go home" },
 	{ on = [ "g", "h" ],       run = "cd ~",             desc = "Go home" },
 	{ on = [ "g", "c" ],       run = "cd ~/.config",     desc = "Go ~/.config" },
