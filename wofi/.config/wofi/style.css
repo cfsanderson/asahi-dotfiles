@@ -1,14 +1,17 @@
-/* Colors are defined by theme file and can be referenced via @base, @text, @selected-text, and @border */
+@define-color base #1a1919;
+@define-color text #DCC6A3;
+@define-color selected-text #DCC6A3;
+@define-color bg-hover #282828;
 
 * {
-  font-family: 'CaskaydiaMono Nerd Font', monospace;
+  font-family: 'FiraCode Nerd Font', monospace;
   font-size: 16px;
 }
 
 window {
   margin: 0px;
-  padding: 20px;
-  background-color: @base;
+  padding: 0px;
+  background-color: transparent;
   opacity: 0.95;
 }
 
@@ -16,7 +19,7 @@ window {
   margin: 0;
   padding: 0;
   border: none;
-  background-color: @base;
+  background-color: transparent;
 }
 
 #outer-box {
@@ -24,7 +27,7 @@ window {
   padding: 20px;
   border: none;
   background-color: @base;
-  border: 2px solid @border;
+  border-radius: 6px;
 }
 
 #scroll {
@@ -70,5 +73,3 @@ window {
 #entry image {
   -gtk-icon-transform: scale(0.7);
 }
-
-@import "/home/caleb/.config/wofi/wofi.css";
