@@ -1,8 +1,10 @@
-# My Omarchy-ish Arch Setup
+# My Custom Hyprland Asahi Setup: Omarchy Inspired
 
-So, I use Arch now (by the way)..
+So, I put Linux on my MacBook Pro...
 
-At the beginning of this year, I tried [Omakub](https://omakub.org/) and when that was too opinionated, I tried ricing my own custom [Hyprland](https://hypr.land/) setup but got bogged down and retreated back to [Pop!_OS (Cosmic)](https://system76.com/cosmic/). When I heard about DHH's **[Omarchy](https://github.com/basecamp/omarchy)** project, I knew I had to give it a try. This configuration is heavily inspired by the principles of digital sovereignty and self-reliance championed by DHH and the Linux crowd, but I also see it as a design exercise. As a product designer, I'm constantly working within fairly narrow product constraints. What could be more liberating than building your own, bespoke digital environment??! I'm mostly just having fun on an old 2015 Macbook Pro, trying to own my own setup and understand how it works.
+At the beginning of last year, I tried [Omakub](https://omakub.org/) and when that was too opinionated, I tried ricing my own custom [Hyprland](https://hypr.land/) setup but got bogged down and retreated back to [Pop!_OS (Cosmic)](https://system76.com/cosmic/). When I heard about DHH's **[Omarchy](https://github.com/basecamp/omarchy)** project, I knew I had to give it a try. This configuration is heavily inspired by the principles of digital sovereignty and self-reliance championed by DHH and the Linux crowd, but I also see it as a design exercise. As a product designer, I'm constantly working within fairly narrow product constraints. What could be more liberating than building your own, bespoke digital environment??!
+
+What started on an old 2015 MacBook Pro eventually found a better home: [Asahi Linux](https://asahilinux.org/) on my M1 MacBook Pro. Asahi's Fedora remix brings a polished, rolling-release Linux experience to Apple Silicon — and it turns out Hyprland on an M1 is genuinely great.
 
 <details>
   <summary><b>Screenshots</b> - Click to expand</summary>
@@ -10,17 +12,17 @@ At the beginning of this year, I tried [Omakub](https://omakub.org/) and when th
   ![Desktop background](screens/2025-08-03-211759_hyprshot.png)
   *1) Basic desktop with waybar using cfs-gruvbox-material theme*
 
-  ![HTML Theme and Ghostty](screens/2025-08-03-211717_hyprshot.png)
-  *2) Example HTML theme file and Ghostty terminal*
+  ![HTML Theme and Kitty](screens/2025-08-03-211717_hyprshot.png)
+  *2) Example HTML theme file and Kitty terminal*
 
-  ![Ghostty with Tmux panes](screens/2025-08-03-211903_hyprshot.png)
-  *3) Ghostty with tmux panes and Fastfetch in theme*
+  ![Kitty with Tmux panes](screens/2025-08-03-211903_hyprshot.png)
+  *3) Kitty with tmux panes and Fastfetch in theme*
 
   ![Btop with theme](screens/2025-08-03-211911_hyprshot.png)
   *4) btop system monitor with matching color scheme*
 
   ![Neovim with Claude plugin](screens/2025-08-03-211952_hyprshot.png)
-  *5) Neovim with Claude plugin* 
+  *5) Neovim with Claude plugin*
 
   ![Custom Bat theme](screens/2025-08-03-212003_hyprshot.png)
   *6) Custom Bat theme*
@@ -34,7 +36,7 @@ At the beginning of this year, I tried [Omakub](https://omakub.org/) and when th
 </details>
 </br>
 
-This repository serves as my personal dotfiles and a self-contained toolkit for bootstrapping a new machine from a minimal Arch install to a fully configured Hyprland desktop based on Omarchy. While Omarchy was a great gateway drug for Arch, I immediately set about customizing to my tastes - removing/replacing apps, refining with my personal theme, etc. - so much so that it just made sense to "start fresh". Here are some highlights:
+This repository serves as my personal dotfiles and a self-contained toolkit for bootstrapping a new machine from a minimal Asahi Linux install to a fully configured Hyprland desktop. While Omarchy was a great gateway drug, I immediately set about customizing to my tastes — removing/replacing apps, refining with my personal theme, etc. — so much so that it just made sense to "start fresh". Here are some highlights:
 
 ## What's Inside: Core Components
 
@@ -44,63 +46,62 @@ This repository serves as my personal dotfiles and a self-contained toolkit for 
 *   **Bar:** [Waybar](https://github.com/Alexays/Waybar)
 
 ### Changed from Omarchy
-*   **Shell:** [Zsh](https://zsh.sourceforge.io/) & [Oh My Zsh](https://ohmyz.sh/) instead of Bash.
-*   **Terminal:** [Ghostty](https://ghostty.org/) instead of [Alacritty](https://alacritty.org/)
+*   **Shell:** [Zsh](https://zsh.sourceforge.io/) & [Oh My Zsh](https://ohmyz.sh/) instead of Bash
+*   **Terminal:** [Kitty](https://sw.kovidgoyal.net/kitty/) instead of [Alacritty](https://alacritty.org/)
 *   **Browser:** [Zen Browser](https://zen-browser.app/) instead of Chromium
-*   **Neovim config**: My fork of [Kickstart.nvim](https://github.com/cfsanderson/kickstart-cfs.nvim) for Neovim config instead of Lazy.vim
+*   **Neovim config:** My fork of [Kickstart.nvim](https://github.com/cfsanderson/kickstart-cfs.nvim) instead of Lazy.vim
+*   **Package management:** `dnf` + Flatpak + COPR instead of `pacman` + AUR
 
 ### Added
-*   **Install Script:** This script uses a declarative package list and should make setting up a new system much easier.
+*   **Install Script:** Uses a declarative package list to make setting up a new system reproducible and fast
 *   **Dotfile Management:** [GNU Stow](https://www.gnu.org/software/stow/)
 *   **Music:** [MPD](https://www.musicpd.org/) + [rmpc](https://github.com/mierak/rmpc) for music playback with a gruvbox-material themed TUI client
-*   **Calendar:** [khal](https://khal.readthedocs.io/) + [vdirsyncer](https://github.com/pimutils/vdirsyncer) for terminal calendar with iCloud CalDAV sync and Strava training calendar subscription
-*   **Color Scheme:** My fork of [Sainnhe's Gruvbox Material](https://github.com/cfsanderson/cfs-gruvbox-material) for theming.
+*   **Calendar:** [khal](https://khal.readthedocs.io/) + [vdirsyncer](https://github.com/pimutils/vdirsyncer) for a terminal calendar with iCloud CalDAV sync and Strava training calendar subscription
+*   **Color Scheme:** My fork of [Sainnhe's Gruvbox Material](https://github.com/cfsanderson/cfs-gruvbox-material) for theming
 	* Includes a **master color palette system** in `colors/` directory with CSS and shell variables for consistent theming
 	* All applications use exact colors from the Neovim theme for perfect visual consistency
-	* No fancy theme switching options like Omarchy but the configs for theming are more transparent, and easily configurable (feature, not a bug IMO)
+	* No fancy theme switching options like Omarchy but the configs for theming are more transparent and easily configurable (feature, not a bug IMO)
 
-Phases 0-3 should be hardware agnostic while Phase 4 is more specific to issues that I ran into while setting this up on my 2015 MacBook Pro.
+---
 
 ## Fresh Installation Workflow
 
-This guide is a complete, end-to-end process, starting from a blank machine.
-
 ### Phase 0: Preparation
 
-1.  **Download Arch ISO:** Get the latest official image from the [Arch Linux download page](https://archlinux.org/download/).
-2.  **Create Bootable USB:** Use a tool like [Balena Etcher](https://www.balena.io/etcher/) to flash the ISO to a USB drive.
-3.  **Boot from USB:** Start the computer from the USB drive.
-4.  **Connect to Internet:**
-    *   **Ethernet:** Plug in the cable. It should connect automatically.
-    *   **Wi-Fi:** Run `iwctl`, then `station wlan0 scan`, then `station wlan0 connect "Your-WiFi-Name"`.
+1. **Back up your Mac** (just in case — the Asahi installer is non-destructive but better safe than sorry)
+2. **Check compatibility:** Visit [asahilinux.org](https://asahilinux.org/) to confirm your Apple Silicon chip is supported. M1/M2/M3 series all work well.
 
 ---
 
-### Phase 1: Guided Arch Installation
+### Phase 1: Install Asahi Linux
 
-Use the official `archinstall` script for a reliable base system.
+Asahi provides a one-liner installer that runs from macOS. It resizes your APFS partition and sets up a Fedora Linux environment alongside macOS.
 
-1.  **Launch Installer:** At the prompt, type: `archinstall`
-2.  **Configure the following options:**
-    *   **Disk configuration**: Select the main drive, choose "Wipe the selected drive...", and set the filesystem to **`btrfs`**. Encrypt the disk when prompted.
-    *   **Profile**: `Type`: **`Desktop`** -> `Desktop Environment`: **`Hyprland`** -> `Graphics Driver`: **`Intel`**.
-    *   **User account**: Add your superuser account (`<your-user-name>`).
-    *   **Additional packages**: Add `git stow neovim`.
-    *   **Network configuration**: Choose `Copy ISO network configuration to installation`.
-3.  **Install:** Select `Install` from the main menu and wait for it to complete. When asked to `chroot`, select **No**.
-4.  **Reboot:** Type `reboot` and remove the USB drive.
-
----
-
-### Phase 2: First Boot & COPR Setup
-
-After rebooting, you will be in a minimal Hyprland session.
-
-1.  **Open a Terminal:** Press `SUPER + Return`.
-2.  **Enable COPR repositories** (for Hyprland updates, rmpc, etc.):
+1. **Run the Asahi installer** from macOS Terminal:
     ```bash
-    sudo dnf copr enable -y sdegler/hyprland
-    sudo dnf copr enable -y skoved/rmpc
+    curl https://alx.sh | sh
+    ```
+2. **Select Fedora Asahi Remix** (the default desktop option) when prompted
+3. **Follow the prompts** — the installer guides you through partitioning and setup
+4. **Reboot** into Fedora when the installer completes
+
+---
+
+### Phase 2: First Boot Setup
+
+After booting into Fedora Asahi for the first time:
+
+1. **Connect to Wi-Fi:**
+    ```bash
+    nmtui
+    ```
+2. **Update the system:**
+    ```bash
+    sudo dnf upgrade -y
+    ```
+3. **Install git and stow** if not already present:
+    ```bash
+    sudo dnf install -y git stow
     ```
 
 ---
@@ -108,21 +109,20 @@ After rebooting, you will be in a minimal Hyprland session.
 ### Phase 3: Deploy Custom Environment
 
 1. **Create the Monitor Configuration:**
-    Before stowing, you must create a machine-specific monitor configuration. Hyprland will not start without it. Create the file:
-    ```
+    Before stowing, you must create a machine-specific monitor configuration. Hyprland will not start correctly without it.
+    ```bash
+    mkdir -p ~/.config/hypr
     nvim ~/.config/hypr/monitors.conf
     ```
-    Add a line for your specific monitor. To find your monitor's name, run `hyprctl monitors`.
+    Run `hyprctl monitors` to find your monitor names. See the [Hyprland monitor docs](https://wiki.hypr.land/Configuring/Monitors/) for syntax.
 
-This is where this dotfiles repository takes over.
-
-2.  **Clone Your Dotfiles Repository (with Submodules):**
+2. **Clone this repository (with submodules):**
     ```bash
     git clone --recurse-submodules https://github.com/cfsanderson/asahi-dotfiles.git ~/Projects/asahi-dotfiles
     ```
 
-3.  **Run the Automated Install Script:**
-    This script enables COPR repos, installs DNF packages, installs Flatpak apps, and stows all dotfiles.
+3. **Run the automated install script:**
+    This enables COPR repos, installs DNF packages, installs Flatpak apps, and stows all dotfiles.
     ```bash
     cd ~/Projects/asahi-dotfiles
     ./install.sh
@@ -130,72 +130,35 @@ This is where this dotfiles repository takes over.
 
 ---
 
-### Phase 4: Manual System Configuration (CRITICAL)
+### Phase 4: Manual System Configuration
 
-**The following steps are specific to my current system (2015 15" MacBook Pro) so you may want to do your own troubleshooting at this point before running all of these commands.** 
+These steps require `sudo` and modify system files in `/etc`. They must be done manually after the main install script completes.
 
-These commands require `sudo` and modify system files in `/etc`. They must be done manually after the main install script has completed.
-
-**a) Copy System-Level Configurations from Repo:**
-This command copies your captured `zram` configuration into the live system directory.
+**Copy system-level configurations from the repo:**
 ```bash
 sudo cp -r ~/Projects/asahi-dotfiles/etc/* /etc/
 ```
 
-**b) Fix Wi-Fi Backend (Configure `iwd`):**
-This configures NetworkManager to use the modern and reliable `iwd` backend.
-```bash
-# Create the config file
-sudo nvim /etc/NetworkManager/conf.d/wifi_backend.conf
-```
-*Paste the following into the file:*
-```ini
-[device]
-wifi.backend=iwd
-```
-*Then, enable the `iwd` service:*
-```bash
-sudo systemctl enable --now iwd.service
-```
+---
 
-**c) Fix Thunderbolt Ethernet Driver (Pre-load `tg3`):**
-This ensures the driver for the Thunderbolt Ethernet adapter is loaded at boot, fixing hot-plug issues.
-```bash
-# Edit the mkinitcpio config
-sudo nvim /etc/mkinitcpio.conf
-```
-*Find the `MODULES=` line and add `tg3` to it. It must include `btrfs` as well.*
-**Example:** `MODULES=(btrfs tg3)`
+### Phase 5: Asahi-Specific Notes
 
-**d) Fix Keyboard Backlight Permissions:**
-This allows your user to control the keyboard backlight without `sudo`.
-```bash
-# Add your user to the 'input' group (replace '<your-user-name>' if needed)
-sudo usermod -aG input <your-user-name>
-```
+A few quirks specific to running Linux on Apple Silicon hardware:
+
+**Peripheral boot limitation:** USB-C dongles and HDMI monitors must be plugged in **after boot**, not before. U-Boot's XHCI driver hangs on multi-function USB hubs, and the DCP DP2HDMI bridge fails to initialize external displays at boot. Both work fine when hot-plugged after the desktop loads.
+
+**External display:** The included monitor config targets a Dell U2720QM 4K via HDMI, bottom-edge aligned with the internal display (the shorter laptop display is offset downward so the bases line up). Workspaces are dynamically assigned: laptop-only gets all 10; plugging in the external monitor moves workspaces 6–10 to it automatically via `scripts/handle-monitor.sh`.
 
 ---
 
-### Phase 5: Finalize and Reboot
+### Post-Install
 
-1.  **Rebuild the Boot Environment:** This applies your `mkinitcpio.conf` changes.
-    ```bash
-    sudo mkinitcpio -P
-    ```
-2.  **Final Reboot:**
-    ```bash
-    sudo shutdown -r now
-    ```
+- Open Neovim for the first time (`nvim`) and `lazy.nvim` will automatically install all plugins. Close and reopen to see everything initialized.
+- The `install.sh` script installs everything from the `packages/` directory. When you add more software, use the `fedorapack` alias to rebuild the package lists and keep them up to date.
+  - Generates `packages-dnf.txt` (user-installed DNF packages), `packages-flatpak.txt` (Flatpak apps), and `packages-copr.txt` (enabled COPR repos)
+- **Calendar setup:** Add credentials to `~/.config/zsh/.env.local` (`ICLOUD_EMAIL`, `ICLOUD_APP_PASSWORD`, `STRAVA_CALENDAR_URL`), then run `vdirsyncer discover && vdirsyncer sync` and enable the timer: `systemctl --user enable --now vdirsyncer.timer`
 
-After this final reboot, the system should be ready to roll - a pre-rolled, personalized, minimal, stable, and fully-configured Arch + Hyprland desktop environment.
-
------
-
-### Post install:
-- Connect to Wi-Fi for the first time using `nmtui`.
-- Open Neovim for the first time (`nv` alias or standard `nvim`) and the `lazy.nvim` plugin manager will automatically install all the required plugins. You will want to close and restart to see all the changes. Check out [this video](https://youtu.be/m8C0Cq9Uv9o?si=T4lvWKUjSLpFy-pZ) on getting started with it.
-- The `install.sh` script grabs all the packages in the `~/Projects/asahi-dotfiles/packages/` directory and installs them for you. When you inevitably add more, there is a `fedorapack` alias in `~/Projects/asahi-dotfiles/zsh/.config/zsh/oh-my-zsh/custom/aliases.zsh` that will rebuild these files and keep your packages up to date.
-	- Generates `packages-dnf.txt` (user-installed DNF packages), `packages-flatpak.txt` (Flatpak apps), and `packages-copr.txt` (enabled COPR repos)
+---
 
 ## Customizing Colors and Themes
 
@@ -212,7 +175,7 @@ This setup includes a comprehensive master color palette system for easy customi
 
 - **Customization Workflow:**
   1. Modify colors in the master palette files
-  2. Re-stow configs with `stowr` alias
+  2. Re-stow configs with the `stowr` alias
   3. Restart applications to see changes
   4. All applications automatically inherit the new colors
 
