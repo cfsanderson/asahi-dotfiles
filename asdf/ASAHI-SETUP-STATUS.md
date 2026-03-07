@@ -134,7 +134,7 @@ Dotfiles Branch: asahi-m1-macbook
 
 ## Reference: Arch Dotfiles Location
 
-Original Arch Linux configs: `~/Projects/arch-dotfiles/`
+Original Arch Linux configs: `~/Projects/asahi-dotfiles/` (formerly arch-dotfiles)
 
 Key differences between Arch and Fedora/Asahi:
 1. Ghostty not available on ARM64 - using Kitty

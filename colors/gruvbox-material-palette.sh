@@ -8,7 +8,7 @@
 # Source this file in your shell scripts to access color variables.
 #
 # Usage Examples:
-#   source /home/caleb/Projects/arch-dotfiles/colors/gruvbox-material-palette.sh
+#   source /home/caleb/Projects/asahi-dotfiles/colors/gruvbox-material-palette.sh
 #   echo -e "${fg0}Hello${reset} ${bg3}World${reset}"
 #   hyprctl keyword general:col.active_border "rgb(${grey2//#/})"
 
