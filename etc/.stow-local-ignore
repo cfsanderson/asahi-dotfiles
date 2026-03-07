@@ -1,0 +1,3 @@
+# Nothing in this package should be stowed into ~/
+# These are system config files (pacman.conf, greetd) stored here for reference
+.*

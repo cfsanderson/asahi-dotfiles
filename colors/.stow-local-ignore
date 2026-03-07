@@ -1,0 +1,3 @@
+# Nothing in this package should be stowed into ~/
+# These are reference files used directly from the dotfiles repo path
+.*
