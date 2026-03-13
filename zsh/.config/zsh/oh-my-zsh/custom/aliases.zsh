@@ -74,6 +74,8 @@ alias sourz='source $HOME/Projects/asahi-dotfiles/zsh/.config/zsh/.zshrc && clea
 alias spotify='brave-browser --app=https://open.spotify.com'
 alias st='nmcli connection show --active && speedtest-cli'
 alias stowr='cd ~/Projects/asahi-dotfiles/ && stow -R -t $HOME */'
+alias stravapi='ssh caleb@192.168.1.192'
+alias archmac='ssh caleb@192.168.1.179'
 alias to=touch_open
 alias tp='trash-put'
 alias waybarreload='pkill -SIGUSR2 waybar'
