@@ -27,7 +27,22 @@ while IFS= read -r app; do
     flatpak install -y flathub "$app" 2>/dev/null || echo "   Note: $app may need a custom remote"
 done < packages/packages-flatpak.txt
 
-# --- 4. Install Oh My Zsh Custom Plugins ---
+# --- 4. Install keyd (kernel-level key remapper) ---
+echo "-> Installing keyd from source..."
+if ! command -v keyd &>/dev/null; then
+    git clone https://github.com/rvaiya/keyd /tmp/keyd
+    make -C /tmp/keyd
+    sudo make -C /tmp/keyd install
+    rm -rf /tmp/keyd
+else
+    echo "   keyd already installed, skipping."
+fi
+echo "-> Copying keyd config and enabling service..."
+sudo mkdir -p /etc/keyd
+sudo cp etc/keyd/default.conf /etc/keyd/default.conf
+sudo systemctl enable --now keyd
+
+# --- 5. Install Oh My Zsh Custom Plugins ---
 echo "-> Installing custom Oh My Zsh plugins..."
 # The destination needs to be the live directory, not the stowed one
 ZSH_CUSTOM="$HOME/.config/zsh/oh-my-zsh/custom"
@@ -42,13 +57,13 @@ if [ ! -d "${ZSH_CUSTOM}/plugins/zsh-syntax-highlighting" ]; then
 fi
 
 
-# --- 5. Stow All Dotfiles ---
+# --- 6. Stow All Dotfiles ---
 echo "-> Stowing all dotfiles..."
 # Run stow from a subshell to avoid changing the script's current directory
 (cd ~/Projects/asahi-dotfiles/ && stow -R -t $HOME */)
 
 
-# --- 6. Set Zsh as Default Shell ---
+# --- 7. Set Zsh as Default Shell ---
 if [ "$SHELL" != "/bin/zsh" ]; then
   echo "-> Changing default shell to Zsh..."
   chsh -s $(which zsh)
