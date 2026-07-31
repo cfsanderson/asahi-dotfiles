@@ -8,4 +8,4 @@ MatchUdevType=touchpad
 ModelAppleTouchpad=1
 AttrSizeHint=126x78
 AttrTouchSizeRange=150:130
-AttrPalmSizeThreshold=350
+AttrPalmSizeThreshold=1600
