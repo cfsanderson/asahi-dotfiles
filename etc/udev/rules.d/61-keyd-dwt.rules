@@ -1,0 +1,5 @@
+# Put keyd's virtual keyboard in the same libinput device group as the Apple SPI Trackpad.
+# Without this, libinput's "disable_while_typing" never fires because libinput sees keyboard
+# events from keyd's virtual device (not the real keyboard it grabbed), and doesn't associate
+# them with the trackpad. Grouping them together restores DWT behaviour.
+KERNEL=="event*", ATTRS{name}=="keyd virtual keyboard", ENV{LIBINPUT_DEVICE_GROUP}="1c/5ac/342:spi1"

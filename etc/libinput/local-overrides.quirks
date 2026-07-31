@@ -1,0 +1,11 @@
+# Force-apply Apple SPI Trackpad quirks by name.
+# The standard quirk in 50-system-apple.quirks uses MatchBus=spi which fails on
+# Asahi Linux because the bus type shows as <unknown> to libinput. Matching by
+# name bypasses this and applies palm detection + touch size calibration.
+[Apple SPI Trackpad (Asahi Linux override)]
+MatchName=Apple SPI Trackpad
+MatchUdevType=touchpad
+ModelAppleTouchpad=1
+AttrSizeHint=126x78
+AttrTouchSizeRange=150:130
+AttrPalmSizeThreshold=350
