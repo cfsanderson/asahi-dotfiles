@@ -19,7 +19,7 @@ hl.on("hyprland.start", function()
 
     -- Terminal on workspace 10, spawned straight onto that workspace and fullscreen
     hl.dispatch(hl.dsp.exec_cmd("kitty -e tmux new-session", { workspace = "10", fullscreen = true }))
-    hl.dispatch(hl.dsp.exec_cmd("sleep 3 && hyprctl dispatch workspace 10"))
+    hl.dispatch(hl.dsp.exec_cmd("sleep 3 && hyprctl dispatch 'hl.dsp.focus({ workspace = \"10\" })'"))
 
     -- Start Maestral (Dropbox sync) if linked
     hl.dispatch(hl.dsp.exec_cmd("maestral start"))

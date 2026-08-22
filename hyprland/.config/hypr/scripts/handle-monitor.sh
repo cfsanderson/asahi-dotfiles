@@ -15,6 +15,12 @@
 # NOTE: Do NOT use `hyprctl keyword workspace` rules — they poison the workspace
 # dispatcher and override focusmonitor for all future workspace creation.
 # Instead, rely solely on focusmonitor + workspace dispatch + moveworkspacetomonitor.
+#
+# NOTE: Hyprland's config is Lua now (hyprland.lua), and under Lua config mode
+# `hyprctl dispatch` takes a Lua expression (auto-wrapped in hl.dispatch(...)),
+# not the old `dispatch <name> <args>` string form -- e.g.
+# `hyprctl dispatch 'hl.dsp.focus({ workspace = "2" })'` instead of
+# `hyprctl dispatch workspace 2`.
 
 set -euo pipefail
 
@@ -47,7 +53,7 @@ arrange_workspaces() {
     active_workspaces=$(echo "$monitors" | jq -r '.[] | "\(.name):\(.activeWorkspace.id)"')
 
     for ws in "${ALL_WORKSPACES[@]}"; do
-        hyprctl dispatch moveworkspacetomonitor "$ws $mon" > /dev/null 2>&1
+        hyprctl dispatch "hl.dsp.workspace.move({ workspace = \"$ws\", monitor = \"$mon\" })" > /dev/null 2>&1
     done
 
     # Restore previously active workspaces
@@ -55,8 +61,8 @@ arrange_workspaces() {
         local mon_name=${line%%:*}
         local ws_id=${line##*:}
         if echo "$monitors" | jq -e ".[] | select(.name == \"$mon_name\")" > /dev/null 2>&1; then
-            hyprctl dispatch focusmonitor "$mon_name" > /dev/null 2>&1
-            hyprctl dispatch workspace "$ws_id" > /dev/null 2>&1
+            hyprctl dispatch "hl.dsp.focus({ monitor = \"$mon_name\" })" > /dev/null 2>&1
+            hyprctl dispatch "hl.dsp.focus({ workspace = \"$ws_id\" })" > /dev/null 2>&1
         fi
     done <<< "$active_workspaces"
 }
@@ -66,13 +72,13 @@ switch_workspace() {
     local ws=$1
     local mon
     mon=$(target_monitor "$ws")
-    hyprctl --batch "dispatch focusmonitor $mon; dispatch workspace $ws" > /dev/null 2>&1
+    hyprctl --batch "dispatch hl.dsp.focus({ monitor = \"$mon\" }); dispatch hl.dsp.focus({ workspace = \"$ws\" })" > /dev/null 2>&1
 }
 
 # Move active window to workspace on its assigned monitor (used by keybindings)
 move_to_workspace() {
     local ws=$1
-    hyprctl dispatch movetoworkspace "$ws" > /dev/null 2>&1
+    hyprctl dispatch "hl.dsp.window.move({ workspace = \"$ws\" })" > /dev/null 2>&1
 }
 
 listen() {
