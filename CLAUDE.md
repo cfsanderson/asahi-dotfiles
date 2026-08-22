@@ -53,17 +53,39 @@ The repository uses GNU Stow's directory structure where each top-level director
 - `wallpapers/` - Desktop wallpapers
 
 ### Hyprland Configuration Structure
-Hyprland config is modularized across multiple files in `hyprland/.config/hypr/`:
-- `hyprland.conf` - Main config file that sources all others
-- `monitors.conf` - Machine-specific monitor configuration (must be created manually)
-- `autostart.conf` - Applications to start with Hyprland
-- `bindings.conf` - Keyboard shortcuts and bindings
-- `envs.conf` - Environment variables
-- `input.conf` - Input device configuration
-- `looknfeel.conf` - Appearance and animation settings
-- `windows.conf` - Window rules and workspace settings
-- `theme.conf` - Color scheme and theming
+Hyprland config is Lua (`hyprland.lua`), not hyprlang `.conf` — migrated 2026-08-22 because
+hyprlang/`.conf` support is dropped in Hyprland 0.57 (this repo tracks 0.56.2). Modularized
+across multiple files in `hyprland/.config/hypr/`, `require()`d from `hyprland.lua`:
+- `hyprland.lua` - Main config file; defines shared app-launcher globals ($terminal etc.
+  become plain Lua globals since `require()`d files don't share `local` scope) and
+  `require()`s all others, in the same order the old `source=` lines used
+- `monitors.lua` - Machine-specific monitor configuration (must be created manually)
+- `autostart.lua` - Apps to start with Hyprland, via `hl.on("hyprland.start", function() ... end)`
+  (fires exactly once per Hyprland process — the exec-once equivalent)
+- `bindings.lua` - Keyboard shortcuts and bindings (`hl.bind(...)`)
+- `envs.lua` - Environment variables (`hl.env(...)`)
+- `input.lua` - Input device configuration
+- `windows.lua` - Window/layer rules (`hl.window_rule(...)` / `hl.layer_rule(...)`)
+- `theme.lua` - Color scheme and theming
 - `scripts/` - Helper scripts (e.g., launch-wofi.sh, handle-monitor.sh)
+
+The old `hyprland.conf` + `*.conf` files are still present, untouched, as a fallback: Hyprland
+prefers `hyprland.lua` when present and only falls back to the legacy `.conf` parser if it's
+missing, so deleting `hyprland.lua` is an instant rollback.
+
+**Lua config gotchas** (learned migrating this repo — see git log for the fixes):
+- Old hyprlang key names with hyphens or colons get auto-translated for `hl.config()`
+  lookups: `:` → `.`, `-` → `_`. So old `tap-to-click` is `tap_to_click` in Lua, not a
+  bracket-string `["tap-to-click"]`.
+- Under Lua config mode, `hyprctl dispatch <args>` evaluates its argument as a Lua
+  expression (auto-wrapped in `hl.dispatch(...)`) — NOT the old `dispatch <name> <args>`
+  string form. Any script calling `hyprctl dispatch <dispatcher> <args>` (e.g.
+  `handle-monitor.sh`) must be rewritten to `hyprctl dispatch 'hl.dsp.<dispatcher>({...})'`.
+- The Lua config manager type (Lua vs. legacy) is decided once at Hyprland process startup
+  based on whether `hyprland.lua` exists at that moment — `hyprctl reload` re-parses
+  whichever manager is already loaded, it does NOT re-check which file to use. A fresh
+  Hyprland start (logout/login or reboot) is required to actually pick up `hyprland.lua`
+  for the first time.
 
 ### Key Applications
 - **Window Manager**: Hyprland (Wayland compositor)
