@@ -300,7 +300,6 @@ tar
 tcpdump
 terminus-fonts-console
 time
-tiny-dfr
 tiwilink-firmware
 tmux
 toolbox

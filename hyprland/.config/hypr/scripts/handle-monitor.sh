@@ -1,8 +1,10 @@
 #!/bin/bash
-# Dynamic workspace-to-monitor assignment for Hyprland
+# Single-monitor workspace arrangement for Hyprland, with KVM reconnect handling.
 #
-# When only the laptop (eDP-1) is connected: all workspaces 1-10 on laptop
-# When external monitor (HDMI-A-1) is plugged in: 1-5 on laptop, 6-10 on external
+# The Mac Mini has exactly one display, switched via a KVM. Hyprland may see
+# that as a monitor disconnect/reconnect each time the KVM switches away and
+# back. This listens for those events and re-pins all 10 workspaces to the
+# monitor whenever it reappears.
 #
 # Usage:
 #   handle-monitor.sh listen       - Background listener for monitor hotplug events
@@ -16,53 +18,37 @@
 
 set -euo pipefail
 
-LAPTOP="eDP-1"
-EXTERNAL="HDMI-A-1"
-LAPTOP_WORKSPACES=(1 2 3 4 5)
-EXTERNAL_WORKSPACES=(6 7 8 9 10)
+ALL_WORKSPACES=(1 2 3 4 5 6 7 8 9 10)
 
 # Throttle: ignore rapid-fire events within this window (seconds)
 THROTTLE_SECONDS=3
 LAST_RUN=0
 
-has_external() {
-    hyprctl monitors -j | jq -e ".[] | select(.name == \"$EXTERNAL\")" > /dev/null 2>&1
+# Get the (only) connected monitor's name
+active_monitor() {
+    hyprctl monitors -j | jq -r '.[0].name // empty'
 }
 
 # Get the monitor a workspace should live on
 target_monitor() {
-    local ws=$1
-    if has_external && [[ $ws -ge 6 ]]; then
-        echo "$EXTERNAL"
-    else
-        echo "$LAPTOP"
-    fi
+    active_monitor
 }
 
 arrange_workspaces() {
     local monitors
     monitors=$(hyprctl monitors -j)
 
+    local mon
+    mon=$(echo "$monitors" | jq -r '.[0].name // empty')
+    [[ -z "$mon" ]] && return 0
+
     # Save active workspace per monitor to restore after rearranging
     local active_workspaces
     active_workspaces=$(echo "$monitors" | jq -r '.[] | "\(.name):\(.activeWorkspace.id)"')
 
-    local external_present
-    external_present=$(echo "$monitors" | jq -r "[.[] | select(.name == \"$EXTERNAL\")] | length")
-
-    # Move existing workspaces to their assigned monitors
-    if [[ "$external_present" -ge 1 ]]; then
-        for ws in "${LAPTOP_WORKSPACES[@]}"; do
-            hyprctl dispatch moveworkspacetomonitor "$ws $LAPTOP" > /dev/null 2>&1
-        done
-        for ws in "${EXTERNAL_WORKSPACES[@]}"; do
-            hyprctl dispatch moveworkspacetomonitor "$ws $EXTERNAL" > /dev/null 2>&1
-        done
-    else
-        for ws in "${LAPTOP_WORKSPACES[@]}" "${EXTERNAL_WORKSPACES[@]}"; do
-            hyprctl dispatch moveworkspacetomonitor "$ws $LAPTOP" > /dev/null 2>&1
-        done
-    fi
+    for ws in "${ALL_WORKSPACES[@]}"; do
+        hyprctl dispatch moveworkspacetomonitor "$ws $mon" > /dev/null 2>&1
+    done
 
     # Restore previously active workspaces
     while IFS= read -r line; do

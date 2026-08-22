@@ -16,8 +16,7 @@
       "network",
       "pulseaudio",
       "cpu",
-      "power-profiles-daemon",
-      "battery"
+      "power-profiles-daemon"
     ],
     "hyprland/workspaces": {
       "on-click": "activate",
@@ -41,156 +40,7 @@
         "2": [],
         "3": [],
         "4": [],
-        "5": []
-      }
-    },
-    "cpu": {
-      "interval": 5,
-      "format": "󰍛",
-      "on-click": "kitty -e btop"
-    },
-    "clock": {
-      "format": "{:%H:%M }",
-      "format-alt": "{:%H:%M | %A %d | W%V %B %Y}",
-      "tooltip": false
-    },
-    "network": {
-      "format-icons": [
-        "󰤯",
-        "󰤟",
-        "󰤢",
-        "󰤥",
-        "󰤨"
-      ],
-      "format": "{icon}",
-      "format-wifi": "{icon}",
-      "format-ethernet": "󰀂",
-      "format-disconnected": "󰖪",
-      "tooltip-format-wifi": "{essid} ({frequency} GHz)\n⇣{bandwidthDownBytes}  ⇡{bandwidthUpBytes}",
-      "tooltip-format-ethernet": "⇣{bandwidthDownBytes}  ⇡{bandwidthUpBytes}",
-      "tooltip-format-disconnected": "Disconnected",
-      "interval": 3,
-      "nospacing": 1,
-      "on-click": "kitty -e nmtui"
-    },
-    "battery": {
-      "format": "{capacity}% {icon}",
-      "format-discharging": "{icon}",
-      "format-charging": "{icon}",
-      "format-plugged": "",
-      "format-icons": {
-        "charging": [
-          "󰢜",
-          "󰂆",
-          "󰂇",
-          "󰂈",
-          "󰢝",
-          "󰂉",
-          "󰢞",
-          "󰂊",
-          "󰂋",
-          "󰂅"
-        ],
-        "default": [
-          "󰁺",
-          "󰁻",
-          "󰁼",
-          "󰁽",
-          "󰁾",
-          "󰁿",
-          "󰂀",
-          "󰂁",
-          "󰂂",
-          "󰁹"
-        ]
-      },
-      "format-full": "Charged ",
-      "tooltip-format-discharging": "{power:>1.0f}W↓ {capacity}%",
-      "tooltip-format-charging": "{power:>1.0f}W↑ {capacity}%",
-      "interval": 5,
-      "states": {
-        "warning": 20,
-        "critical": 10
-      }
-    },
-    "bluetooth": {
-      "format": "",
-      "format-disabled": "󰂲",
-      "format-connected": "",
-      "tooltip-format": "Devices connected: {num_connections}",
-      "on-click": "GTK_THEME=Adwaita-dark blueman-manager"
-    },
-    "pulseaudio": {
-      "format": "",
-      "format-muted": "󰝟",
-      "scroll-step": 5,
-      "on-click": "GTK_THEME=Adwaita-dark pavucontrol",
-      "tooltip-format": "Playing at {volume}%",
-      "on-click-right": "pamixer -t",
-      "ignored-sinks": [
-        "Easy Effects Sink"
-      ]
-    },
-    "power-profiles-daemon": {
-      "format": "{icon}",
-      "tooltip-format": "Power profile: {profile}",
-      "tooltip": true,
-      "format-icons": {
-        "power-saver": "󰡳",
-        "balanced": "󰊚",
-        "performance": "󰡴"
-      }
-    },
-    "custom/dropbox": {
-      "format": "",
-      "on-click": "nautilus ~/Dropbox",
-      "exec": "maestral status 2>/dev/null || echo 'Not running'",
-      "return-type": "text",
-      "interval": 5,
-      "tooltip": true,
-      "tooltip-format": "{}"
-    },
-    "output": "eDP-1"
-  },
-  {
-    "output": "HDMI-A-1",
-    "layer": "top",
-    "position": "top",
-    "spacing": 0,
-    "height": 26,
-    "modules-left": [
-      "hyprland/workspaces"
-    ],
-    "modules-center": [
-      "clock"
-    ],
-    "modules-right": [
-      "custom/dropbox",
-      "bluetooth",
-      "network",
-      "pulseaudio",
-      "cpu",
-      "power-profiles-daemon",
-      "battery"
-    ],
-    "hyprland/workspaces": {
-      "on-click": "activate",
-      "format": "{icon}",
-      "format-icons": {
-        "default": "",
-        "1": "1",
-        "2": "2",
-        "3": "3",
-        "4": "4",
-        "5": "5",
-        "6": "6",
-        "7": "7",
-        "8": "8",
-        "9": "9",
-        "active": "󱓻",
-        "10": "0"
-      },
-      "persistent-workspaces": {
+        "5": [],
         "6": [],
         "7": [],
         "8": [],
@@ -208,6 +58,25 @@
       "format-alt": "{:%H:%M | %A %d | W%V %B %Y}",
       "tooltip": false
     },
+    "network": {
+      "format-icons": [
+        "󰤯",
+        "󰤟",
+        "󰤢",
+        "󰤥",
+        "󰤨"
+      ],
+      "format": "{icon}",
+      "format-wifi": "{icon}",
+      "format-ethernet": "󰀂",
+      "format-disconnected": "󰖪",
+      "tooltip-format-wifi": "{essid} ({frequency} GHz)\n⇣{bandwidthDownBytes}  ⇡{bandwidthUpBytes}",
+      "tooltip-format-ethernet": "⇣{bandwidthDownBytes}  ⇡{bandwidthUpBytes}",
+      "tooltip-format-disconnected": "Disconnected",
+      "interval": 3,
+      "nospacing": 1,
+      "on-click": "kitty -e nmtui"
+    },
     "bluetooth": {
       "format": "",
       "format-disabled": "󰂲",
@@ -244,65 +113,6 @@
       "interval": 5,
       "tooltip": true,
       "tooltip-format": "{}"
-    },
-    "network": {
-      "format-icons": [
-        "󰤯",
-        "󰤟",
-        "󰤢",
-        "󰤥",
-        "󰤨"
-      ],
-      "format": "{icon}",
-      "format-wifi": "{icon}",
-      "format-ethernet": "󰀂",
-      "format-disconnected": "󰖪",
-      "tooltip-format-wifi": "{essid} ({frequency} GHz)\n⇣{bandwidthDownBytes}  ⇡{bandwidthUpBytes}",
-      "tooltip-format-ethernet": "⇣{bandwidthDownBytes}  ⇡{bandwidthUpBytes}",
-      "tooltip-format-disconnected": "Disconnected",
-      "interval": 3,
-      "nospacing": 1,
-      "on-click": "kitty -e nmtui"
-    },
-    "battery": {
-      "format": "{capacity}% {icon}",
-      "format-discharging": "{icon}",
-      "format-charging": "{icon}",
-      "format-plugged": "",
-      "format-icons": {
-        "charging": [
-          "󰢜",
-          "󰂆",
-          "󰂇",
-          "󰂈",
-          "󰢝",
-          "󰂉",
-          "󰢞",
-          "󰂊",
-          "󰂋",
-          "󰂅"
-        ],
-        "default": [
-          "󰁺",
-          "󰁻",
-          "󰁼",
-          "󰁽",
-          "󰁾",
-          "󰁿",
-          "󰂀",
-          "󰂁",
-          "󰂂",
-          "󰁹"
-        ]
-      },
-      "format-full": "Charged ",
-      "tooltip-format-discharging": "{power:>1.0f}W↓ {capacity}%",
-      "tooltip-format-charging": "{power:>1.0f}W↑ {capacity}%",
-      "interval": 5,
-      "states": {
-        "warning": 20,
-        "critical": 10
-      }
     }
   }
 ]
