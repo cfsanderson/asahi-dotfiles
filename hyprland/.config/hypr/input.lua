@@ -18,11 +18,11 @@ hl.config({
 
         touchpad = {
             natural_scroll = true,
-            ["tap-to-click"] = true,
+            tap_to_click = true,
             disable_while_typing = true, -- prevent accidental touches
             clickfinger_behavior = true, -- 2-finger = right-click, 3-finger = middle
             scroll_factor = 0.7,         -- adjust if scroll feels too fast/slow
-            ["tap-and-drag"] = true,     -- tap and hold to drag
+            tap_and_drag = true,         -- tap and hold to drag
             drag_lock = true,            -- keep dragging after briefly lifting finger
         },
     },
