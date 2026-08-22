@@ -1,0 +1,19 @@
+-- Mac Mini (M2) + single 27" 5120x2880 external monitor via KVM
+--
+-- Start here, then refine after first boot:
+--   1. hyprctl monitors        -> get the real output name (e.g. DP-1, HDMI-A-1)
+--   2. hyprctl monitors -j     -> get the "description" field (stable EDID string)
+--
+-- KVM switches can cause the monitor to enumerate under a different port name
+-- between boots, or look like a disconnect/reconnect when you switch inputs
+-- away and back. Matching by `desc:` (EDID description) survives that; matching
+-- by port name (DP-1, HDMI-A-1) does not. Swap the line below once you have
+-- the description string, e.g.:
+--   output = "desc:LG Electronics LG Ultrafine"
+
+hl.monitor({
+    output   = "",
+    mode     = "5120x2880@60",
+    position = "0x0",
+    scale    = "2",
+})
