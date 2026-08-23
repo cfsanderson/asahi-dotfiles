@@ -27,7 +27,33 @@ while IFS= read -r app; do
     flatpak install -y flathub "$app" 2>/dev/null || echo "   Note: $app may need a custom remote"
 done < packages/packages-flatpak.txt
 
-# --- 4. Install keyd (kernel-level key remapper) ---
+# --- 4. Install Nerd Fonts (FiraCode, CascadiaMono) ---
+# Not packaged in Fedora's repos under these names; waybar/kitty/ghostty
+# configs all reference "FiraCode Nerd Font" / "CaskaydiaMono Nerd Font"
+# by exact family name, so pull the patched fonts straight from upstream.
+NERD_FONTS_VERSION="v3.5.1"
+if ! fc-list | grep -qi "FiraCode Nerd Font"; then
+    echo "-> Installing FiraCode Nerd Font..."
+    mkdir -p /tmp/nerdfonts ~/.local/share/fonts/FiraCodeNerdFont
+    curl -fL -o /tmp/nerdfonts/FiraCode.zip "https://github.com/ryanoasis/nerd-fonts/releases/download/${NERD_FONTS_VERSION}/FiraCode.zip"
+    unzip -o -q /tmp/nerdfonts/FiraCode.zip -d /tmp/nerdfonts/FiraCode "*.ttf"
+    cp /tmp/nerdfonts/FiraCode/*.ttf ~/.local/share/fonts/FiraCodeNerdFont/
+else
+    echo "   FiraCode Nerd Font already installed, skipping."
+fi
+if ! fc-list | grep -qi "CaskaydiaMono Nerd Font"; then
+    echo "-> Installing CaskaydiaMono Nerd Font..."
+    mkdir -p /tmp/nerdfonts ~/.local/share/fonts/CascadiaMonoNerdFont
+    curl -fL -o /tmp/nerdfonts/CascadiaMono.zip "https://github.com/ryanoasis/nerd-fonts/releases/download/${NERD_FONTS_VERSION}/CascadiaMono.zip"
+    unzip -o -q /tmp/nerdfonts/CascadiaMono.zip -d /tmp/nerdfonts/CascadiaMono "*.ttf"
+    cp /tmp/nerdfonts/CascadiaMono/*.ttf ~/.local/share/fonts/CascadiaMonoNerdFont/
+else
+    echo "   CaskaydiaMono Nerd Font already installed, skipping."
+fi
+rm -rf /tmp/nerdfonts
+fc-cache -f ~/.local/share/fonts >/dev/null 2>&1
+
+# --- 5. Install keyd (kernel-level key remapper) ---
 echo "-> Installing keyd from source..."
 if ! command -v keyd &>/dev/null; then
     git clone https://github.com/rvaiya/keyd /tmp/keyd
@@ -42,7 +68,7 @@ sudo mkdir -p /etc/keyd
 sudo cp etc/keyd/default.conf /etc/keyd/default.conf
 sudo systemctl enable --now keyd
 
-# --- 5. Install Oh My Zsh Custom Plugins ---
+# --- 6. Install Oh My Zsh Custom Plugins ---
 echo "-> Installing custom Oh My Zsh plugins..."
 # The destination needs to be the live directory, not the stowed one
 ZSH_CUSTOM="$HOME/.config/zsh/oh-my-zsh/custom"
@@ -57,13 +83,32 @@ if [ ! -d "${ZSH_CUSTOM}/plugins/zsh-syntax-highlighting" ]; then
 fi
 
 
-# --- 6. Stow All Dotfiles ---
+# --- 7. Stow All Dotfiles ---
 echo "-> Stowing all dotfiles..."
 # Run stow from a subshell to avoid changing the script's current directory
 (cd ~/Projects/asahi-dotfiles/ && stow -R -t $HOME */)
 
 
-# --- 7. Set Zsh as Default Shell ---
+# --- 8. Install TPM (Tmux Plugin Manager) and Plugins ---
+echo "-> Installing Tmux Plugin Manager..."
+if [ ! -d "$HOME/.tmux/plugins/tpm" ]; then
+    git clone https://github.com/tmux-plugins/tpm "$HOME/.tmux/plugins/tpm"
+else
+    echo "   TPM already installed, skipping clone."
+fi
+
+echo "-> Installing tmux plugins (gruvbox theme, yank, navigator, sensible)..."
+# install_plugins.sh reads @plugin entries from a running tmux server's options,
+# which are only registered once tmux.conf's `run '~/.tmux/plugins/tpm/tpm'`
+# line has been sourced -- so spin up a throwaway detached session to source
+# the (now-stowed) config, then run the installer against it.
+tmux new-session -d -s __tpm_bootstrap
+tmux source-file "$HOME/.config/tmux/tmux.conf"
+"$HOME/.tmux/plugins/tpm/scripts/install_plugins.sh"
+tmux kill-session -t __tpm_bootstrap
+
+
+# --- 9. Set Zsh as Default Shell ---
 if [ "$SHELL" != "/bin/zsh" ]; then
   echo "-> Changing default shell to Zsh..."
   chsh -s $(which zsh)

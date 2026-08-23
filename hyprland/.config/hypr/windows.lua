@@ -90,10 +90,3 @@ hl.window_rule({
     size = "622 652",
     stay_focused = true,
 })
-
--- Autostart Ghostty in fullscreen on workspace 10
-hl.window_rule({
-    name = "ghostty-workspace10-fullscreen",
-    match = { class = "^(com.mitchellh.ghostty)$", workspace = "10" },
-    fullscreen = true,
-})

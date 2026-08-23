@@ -24,7 +24,7 @@
 
 set -euo pipefail
 
-ALL_WORKSPACES=(1 2 3 4 5 6 7 8 9 10)
+ALL_WORKSPACES=(1 2 3 4 5)
 
 # Throttle: ignore rapid-fire events within this window (seconds)
 THROTTLE_SECONDS=3
