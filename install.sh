@@ -68,7 +68,21 @@ sudo mkdir -p /etc/keyd
 sudo cp etc/keyd/default.conf /etc/keyd/default.conf
 sudo systemctl enable --now keyd
 
-# --- 6. Install Oh My Zsh Custom Plugins ---
+# --- 6. Install Maestral (Dropbox client) ---
+# Official Dropbox has no Linux ARM64 build, so this repo uses Maestral (an
+# open-source client) instead -- autostart.lua and waybar's custom/dropbox
+# module both already assume `maestral` is on PATH. Installed via pipx since
+# Fedora's system Python is externally-managed (PEP 668).
+echo "-> Installing Maestral (Dropbox client)..."
+if ! command -v maestral &>/dev/null; then
+    pipx install maestral
+else
+    echo "   Maestral already installed, skipping."
+fi
+echo "   NOTE: Maestral still needs to be linked to your Dropbox account --"
+echo "   run 'maestral auth' interactively after this script finishes."
+
+# --- 7. Install Oh My Zsh Custom Plugins ---
 echo "-> Installing custom Oh My Zsh plugins..."
 # The destination needs to be the live directory, not the stowed one
 ZSH_CUSTOM="$HOME/.config/zsh/oh-my-zsh/custom"
@@ -83,13 +97,13 @@ if [ ! -d "${ZSH_CUSTOM}/plugins/zsh-syntax-highlighting" ]; then
 fi
 
 
-# --- 7. Stow All Dotfiles ---
+# --- 8. Stow All Dotfiles ---
 echo "-> Stowing all dotfiles..."
 # Run stow from a subshell to avoid changing the script's current directory
 (cd ~/Projects/asahi-dotfiles/ && stow -R -t $HOME */)
 
 
-# --- 8. Install TPM (Tmux Plugin Manager) and Plugins ---
+# --- 9. Install TPM (Tmux Plugin Manager) and Plugins ---
 echo "-> Installing Tmux Plugin Manager..."
 if [ ! -d "$HOME/.tmux/plugins/tpm" ]; then
     git clone https://github.com/tmux-plugins/tpm "$HOME/.tmux/plugins/tpm"
@@ -108,7 +122,7 @@ tmux source-file "$HOME/.config/tmux/tmux.conf"
 tmux kill-session -t __tpm_bootstrap
 
 
-# --- 9. Set Zsh as Default Shell ---
+# --- 10. Set Zsh as Default Shell ---
 if [ "$SHELL" != "/bin/zsh" ]; then
   echo "-> Changing default shell to Zsh..."
   chsh -s $(which zsh)

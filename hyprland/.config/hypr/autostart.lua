@@ -11,8 +11,8 @@ hl.on("hyprland.start", function()
     hl.dispatch(hl.dsp.exec_cmd("~/.config/hypr/scripts/handle-monitor.sh listen"))
     hl.dispatch(hl.dsp.exec_cmd("~/.config/hypr/scripts/handle-monitor.sh arrange"))
 
-    -- GNOME Keyring (auto-unlock secrets at login)
-    hl.dispatch(hl.dsp.exec_cmd("gnome-keyring-daemon --start --components=secrets"))
+    -- GNOME Keyring is unlocked and started via pam_gnome_keyring.so in
+    -- /etc/pam.d/login (auto_start on session open) -- no manual start needed.
 
     -- Clipboard (wl-clipboard installed, clipse not available on Fedora)
     -- hl.dispatch(hl.dsp.exec_cmd("wl-paste --watch wl-copy"))  -- Disabled - causes clipboard issues
