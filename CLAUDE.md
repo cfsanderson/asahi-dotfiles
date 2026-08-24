@@ -23,7 +23,7 @@ This is a personal dotfiles repository for Fedora Asahi Linux (Apple Silicon) th
 - `confhypr` - Edit Hyprland configs: `cd hyprland/.config/hypr/ && nvim .`
 - `confnv` - Edit Neovim config: `cd nvim/.config/nvim/ && nvim init.lua`
 - `conftmux` - Edit Tmux config: `cd tmux/.config/tmux/ && nvim .`
-- `confghostty` - Edit Ghostty terminal config: `cd ghostty/.config/ghostty/ && nvim config`
+- `confkitty` - Edit Kitty terminal config: `cd kitty/.config/kitty/ && nvim .`
 - `confalias` - Edit shell aliases: `cd zsh/.config/zsh/oh-my-zsh/custom/ && nvim aliases.zsh`
 - `confzsh` - Edit Zsh main config: `cd ~/.config/zsh/ && nvim .zshrc`
 - `music` - Launch rmpc music player (stops MPD on exit)
@@ -37,7 +37,7 @@ The repository uses GNU Stow's directory structure where each top-level director
 - `hyprland/` - Window manager configuration (modular config split across multiple files)
 - `nvim/` - Neovim configuration (fork of Kickstart.nvim)
 - `zsh/` - Shell configuration with Oh My Zsh
-- `ghostty/` - Terminal emulator configuration
+- `kitty/` - Terminal emulator configuration
 - `waybar/` - Status bar configuration
 - `wofi/` - Application launcher configuration
 - `tmux/` - Terminal multiplexer configuration
@@ -89,7 +89,7 @@ missing, so deleting `hyprland.lua` is an instant rollback.
 
 ### Key Applications
 - **Window Manager**: Hyprland (Wayland compositor)
-- **Terminal**: Ghostty (replaces Alacritty from Omarchy)
+- **Terminal**: Kitty (replaces Alacritty from Omarchy)
 - **Shell**: Zsh with Oh My Zsh
 - **Browser**: Zen Browser (configured for Wayland)
 - **Editor**: Neovim (Kickstart.nvim fork)

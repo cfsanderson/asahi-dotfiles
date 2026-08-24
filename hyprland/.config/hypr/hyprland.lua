@@ -5,7 +5,7 @@
 -- Default applications (globals, so the required files below can see them)
 terminal        = "kitty"
 fileManager     = "nautilus --new-window"
-browser         = "zen-browser --new-window"
+browser         = "brave-browser --new-window"
 passwordManager = "1password"
 messenger       = "signal-desktop"
 webapp          = "zen-browser --new-window"
