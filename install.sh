@@ -28,9 +28,9 @@ while IFS= read -r app; do
 done < packages/packages-flatpak.txt
 
 # --- 4. Install Nerd Fonts (FiraCode, CascadiaMono) ---
-# Not packaged in Fedora's repos under these names; waybar/kitty/ghostty
-# configs all reference "FiraCode Nerd Font" / "CaskaydiaMono Nerd Font"
-# by exact family name, so pull the patched fonts straight from upstream.
+# Not packaged in Fedora's repos under these names; waybar/kitty configs
+# both reference "FiraCode Nerd Font" / "CaskaydiaMono Nerd Font" by exact
+# family name, so pull the patched fonts straight from upstream.
 NERD_FONTS_VERSION="v3.5.1"
 if ! fc-list | grep -qi "FiraCode Nerd Font"; then
     echo "-> Installing FiraCode Nerd Font..."
@@ -53,7 +53,24 @@ fi
 rm -rf /tmp/nerdfonts
 fc-cache -f ~/.local/share/fonts >/dev/null 2>&1
 
-# --- 5. Install keyd (kernel-level key remapper) ---
+# --- 5. Install yazi (TUI file manager) ---
+# Not packaged in Fedora's repos and no cargo toolchain assumed here, so
+# pull the official prebuilt aarch64-linux-gnu binaries straight from
+# upstream, same pattern as the Nerd Fonts step above.
+YAZI_VERSION="v26.8.15"
+if ! command -v yazi &>/dev/null; then
+    echo "-> Installing yazi..."
+    mkdir -p /tmp/yazi ~/.local/bin
+    curl -fL -o /tmp/yazi/yazi.zip "https://github.com/sxyazi/yazi/releases/download/${YAZI_VERSION}/yazi-aarch64-unknown-linux-gnu.zip"
+    unzip -o -q /tmp/yazi/yazi.zip "*/yazi" "*/ya" -d /tmp/yazi
+    cp /tmp/yazi/yazi-aarch64-unknown-linux-gnu/yazi /tmp/yazi/yazi-aarch64-unknown-linux-gnu/ya ~/.local/bin/
+    chmod +x ~/.local/bin/yazi ~/.local/bin/ya
+    rm -rf /tmp/yazi
+else
+    echo "   yazi already installed, skipping."
+fi
+
+# --- 6. Install keyd (kernel-level key remapper) ---
 echo "-> Installing keyd from source..."
 if ! command -v keyd &>/dev/null; then
     git clone https://github.com/rvaiya/keyd /tmp/keyd
@@ -68,7 +85,7 @@ sudo mkdir -p /etc/keyd
 sudo cp etc/keyd/default.conf /etc/keyd/default.conf
 sudo systemctl enable --now keyd
 
-# --- 6. Install Maestral (Dropbox client) ---
+# --- 7. Install Maestral (Dropbox client) ---
 # Official Dropbox has no Linux ARM64 build, so this repo uses Maestral (an
 # open-source client) instead -- autostart.lua and waybar's custom/dropbox
 # module both already assume `maestral` is on PATH. Installed via pipx since
@@ -82,7 +99,7 @@ fi
 echo "   NOTE: Maestral still needs to be linked to your Dropbox account --"
 echo "   run 'maestral auth' interactively after this script finishes."
 
-# --- 7. Install Oh My Zsh Custom Plugins ---
+# --- 8. Install Oh My Zsh Custom Plugins ---
 echo "-> Installing custom Oh My Zsh plugins..."
 # The destination needs to be the live directory, not the stowed one
 ZSH_CUSTOM="$HOME/.config/zsh/oh-my-zsh/custom"
@@ -97,13 +114,17 @@ if [ ! -d "${ZSH_CUSTOM}/plugins/zsh-syntax-highlighting" ]; then
 fi
 
 
-# --- 8. Stow All Dotfiles ---
+# --- 9. Stow All Dotfiles ---
 echo "-> Stowing all dotfiles..."
 # Run stow from a subshell to avoid changing the script's current directory
 (cd ~/Projects/asahi-dotfiles/ && stow -R -t $HOME */)
 
+# --- 10. Enable MPD (Music Player Daemon) ---
+echo "-> Enabling MPD service..."
+mkdir -p ~/Music
+systemctl --user enable --now mpd
 
-# --- 9. Install TPM (Tmux Plugin Manager) and Plugins ---
+# --- 11. Install TPM (Tmux Plugin Manager) and Plugins ---
 echo "-> Installing Tmux Plugin Manager..."
 if [ ! -d "$HOME/.tmux/plugins/tpm" ]; then
     git clone https://github.com/tmux-plugins/tpm "$HOME/.tmux/plugins/tpm"
@@ -122,7 +143,7 @@ tmux source-file "$HOME/.config/tmux/tmux.conf"
 tmux kill-session -t __tpm_bootstrap
 
 
-# --- 10. Set Zsh as Default Shell ---
+# --- 12. Set Zsh as Default Shell ---
 if [ "$SHELL" != "/bin/zsh" ]; then
   echo "-> Changing default shell to Zsh..."
   chsh -s $(which zsh)

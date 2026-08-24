@@ -32,3 +32,11 @@ CLAUDE.local.md
 
 # Claude Code internal files (worktrees, settings)
 .claude/
+
+# systemd --user enablement symlinks (auto-generated machine state, not
+# portable config) -- ~/.config/systemd is a whole-directory stow symlink
+# into vdirsyncer/.config/systemd, so `systemctl --user enable` for ANY
+# service (not just vdirsyncer's own) physically writes its wants-symlink
+# here. Keep the actual .service/.timer unit files tracked; ignore the
+# enablement symlinks systemctl generates.
+vdirsyncer/.config/systemd/user/*.target.wants/

@@ -91,7 +91,7 @@ missing, so deleting `hyprland.lua` is an instant rollback.
 - **Window Manager**: Hyprland (Wayland compositor)
 - **Terminal**: Kitty (replaces Alacritty from Omarchy)
 - **Shell**: Zsh with Oh My Zsh
-- **Browser**: Zen Browser (configured for Wayland)
+- **Browser**: Brave (configured for Wayland)
 - **Editor**: Neovim (Kickstart.nvim fork)
 - **Launcher**: Wofi
 - **Bar**: Waybar

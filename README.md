@@ -48,7 +48,7 @@ This repository serves as my personal dotfiles and a self-contained toolkit for 
 ### Changed from Omarchy
 *   **Shell:** [Zsh](https://zsh.sourceforge.io/) & [Oh My Zsh](https://ohmyz.sh/) instead of Bash
 *   **Terminal:** [Kitty](https://sw.kovidgoyal.net/kitty/) instead of [Alacritty](https://alacritty.org/)
-*   **Browser:** [Zen Browser](https://zen-browser.app/) instead of Chromium
+*   **Browser:** [Brave](https://brave.com/) instead of Chromium
 *   **Neovim config:** My fork of [Kickstart.nvim](https://github.com/cfsanderson/kickstart-cfs.nvim) instead of Lazy.vim
 *   **Package management:** `dnf` + Flatpak + COPR instead of `pacman` + AUR
 

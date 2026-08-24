@@ -8,8 +8,8 @@ fileManager     = "nautilus --new-window"
 browser         = "brave-browser --new-window"
 passwordManager = "1password"
 messenger       = "signal-desktop"
-webapp          = "zen-browser --new-window"
-mail            = "zen-browser --new-window https://mail.proton.me/u/0/inbox"
+webapp          = "brave-browser --new-window"
+mail            = "brave-browser --new-window https://mail.proton.me/u/0/inbox"
 claude          = "claude-desktop"
 
 -- My configs

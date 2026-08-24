@@ -6,6 +6,7 @@ hl.bind("SUPER + P", hl.dsp.exec_cmd(passwordManager))
 -- Start default apps
 hl.bind("SUPER + Return", hl.dsp.exec_cmd(terminal))
 hl.bind("SUPER + F", hl.dsp.exec_cmd(fileManager))
+hl.bind("SUPER + ALT + F", hl.dsp.exec_cmd(terminal .. " -e yazi"))
 hl.bind("SUPER + B", hl.dsp.exec_cmd(browser))
 hl.bind("SUPER + C", hl.dsp.exec_cmd(claude))
 hl.bind("SUPER + M", hl.dsp.exec_cmd(mail))
