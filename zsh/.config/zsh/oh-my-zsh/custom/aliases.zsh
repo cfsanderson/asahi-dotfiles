@@ -82,6 +82,7 @@ alias archmac='ssh caleb@192.168.1.179'
 alias to=touch_open
 alias tp='trash-put'
 alias waybarreload='pkill -SIGUSR2 waybar'
+alias waybarrestart='pkill waybar; waybar & disown'
 alias wl='hyprctl clients -j | jq -r ".[] | select(.class != \"kitty\") | \"\(.workspace.id)\t\(.class)\t\(.title)\""'
 alias screenrecordingstart='wf-recorder -f "$HOME/Videos/ScreenRecordings/recording-$(date +%Y-%m-%d_%H-%M-%S).mp4" &'
 alias screenrecordingstop='pkill -SIGINT wf-recorder'
