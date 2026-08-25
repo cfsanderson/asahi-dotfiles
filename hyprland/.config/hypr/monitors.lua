@@ -28,8 +28,8 @@
 --   output = "desc:LG Electronics LG Ultrafine"
 
 hl.monitor({
-    output   = "",
-    mode     = "3840x2160@60",
-    position = "0x0",
-    scale    = "1.5",
+	output = "HDMI-A-1",
+	mode = "3840x2160@60",
+	position = "0x0",
+	scale = "1.5",
 })

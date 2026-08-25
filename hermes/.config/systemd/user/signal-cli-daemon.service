@@ -1,0 +1,14 @@
+[Unit]
+Description=signal-cli JSON-RPC HTTP daemon for Hermes Signal gateway
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+EnvironmentFile=%h/.hermes/.env
+ExecStart=%h/.local/bin/signal-cli --account ${SIGNAL_ACCOUNT} daemon --http 127.0.0.1:8081
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=default.target
