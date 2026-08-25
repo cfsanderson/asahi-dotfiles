@@ -119,12 +119,34 @@ echo "-> Stowing all dotfiles..."
 # Run stow from a subshell to avoid changing the script's current directory
 (cd ~/Projects/asahi-dotfiles/ && stow -R -t $HOME */)
 
-# --- 10. Enable MPD (Music Player Daemon) ---
+# --- 10. Materialize systemd user unit files (not stow-symlinked) ---
+echo "-> Copying systemd user units into place (not symlinked -- see CLAUDE.md)..."
+# Systemd requires a unit file's REAL location (after resolving symlinks) to be
+# inside a standard search path, or it treats it as "linked" rather than
+# "enabled" and silently excludes it from a target's boot-time dependency
+# closure -- even with a valid *.wants/ symlink present. Stow-symlinking unit
+# files breaks this (confirmed 2026-08-25: vdirsyncer.timer and the Hermes
+# gateway/signal-cli-daemon units never actually started at boot despite
+# `systemctl enable` reporting success). Fix: copy the real bytes into
+# ~/.config/systemd/user/ instead of relying on stow's symlink for this one
+# subdirectory. Source of truth stays in the repo; re-run this block (or the
+# whole install.sh) after editing a tracked unit file.
+mkdir -p ~/.config/systemd/user
+for pkg_unit_dir in ~/Projects/asahi-dotfiles/*/.config/systemd/user; do
+    [ -d "$pkg_unit_dir" ] || continue
+    for unit_file in "$pkg_unit_dir"/*.service "$pkg_unit_dir"/*.timer; do
+        [ -f "$unit_file" ] || continue
+        cp "$unit_file" ~/.config/systemd/user/
+    done
+done
+systemctl --user daemon-reload
+
+# --- 11. Enable MPD (Music Player Daemon) ---
 echo "-> Enabling MPD service..."
 mkdir -p ~/Music
 systemctl --user enable --now mpd
 
-# --- 11. Install TPM (Tmux Plugin Manager) and Plugins ---
+# --- 12. Install TPM (Tmux Plugin Manager) and Plugins ---
 echo "-> Installing Tmux Plugin Manager..."
 if [ ! -d "$HOME/.tmux/plugins/tpm" ]; then
     git clone https://github.com/tmux-plugins/tpm "$HOME/.tmux/plugins/tpm"
@@ -143,7 +165,7 @@ tmux source-file "$HOME/.config/tmux/tmux.conf"
 tmux kill-session -t __tpm_bootstrap
 
 
-# --- 12. Set Zsh as Default Shell ---
+# --- 13. Set Zsh as Default Shell ---
 if [ "$SHELL" != "/bin/zsh" ]; then
   echo "-> Changing default shell to Zsh..."
   chsh -s $(which zsh)

@@ -48,9 +48,32 @@ The repository uses GNU Stow's directory structure where each top-level director
 - `rmpc/` - rmpc MPD TUI client config + gruvbox-material theme (`themes/gruvbox.ron`)
 - `khal/` - Calendar TUI configuration (gruvbox-material themed palette)
 - `vdirsyncer/` - Calendar sync (iCloud CalDAV + Strava HTTP) with systemd timer
+- `hermes/` - Hermes Agent gateway + signal-cli daemon systemd user units
 - `packages/` - Package lists for reproducible installs
 - `etc/` - System-level configurations (requires manual copying to /etc/)
 - `wallpapers/` - Desktop wallpapers
+
+### Systemd user units are copied, not stow-symlinked
+**Gotcha (found 2026-08-25, cost a full Hermes/Signal outage across a reboot):** systemd only
+considers a unit "enabled" (i.e., actually included in a target's boot-time dependency closure)
+when the unit file's real, symlink-resolved location sits inside a standard search path. A unit
+file that's itself a symlink pointing outside those paths — exactly what stow produces for
+`~/.config/systemd/user/*.service` — gets classified as merely "linked", and a `*.target.wants/`
+symlink pointing at it is **silently ignored at boot**, even though `systemctl enable` reports
+success and the service starts fine when triggered manually. Worse, this cascades: if the
+`*.target.wants/` directory itself is a whole-directory stow symlink (which it will be, if only
+one package — e.g. `vdirsyncer` — has ever touched that path), *every* unit enabled through it is
+affected, including ones whose own file lives in a real system path (`mpd.service`,
+`podman-restart.service`). This silently broke `vdirsyncer.timer`'s boot activation for an
+unknown period before being noticed.
+
+Fix in place: `install.sh` step 10 copies every package's `.config/systemd/user/*.service` and
+`*.timer` files directly into `~/.config/systemd/user/` (real files, not stow symlinks) before
+anything gets `systemctl --user enable`d. **If you edit a tracked unit file
+(`hermes/.config/systemd/user/*.service`, `vdirsyncer/.config/systemd/user/*`), the change will
+NOT take effect until you re-copy it** — re-run that install.sh step, or manually `cp` the file
+into `~/.config/systemd/user/` and `systemctl --user daemon-reload`. `stow -R` will (correctly)
+refuse to touch these files with a conflict warning; that's expected, not a bug.
 
 ### Hyprland Configuration Structure
 Hyprland config is Lua (`hyprland.lua`), not hyprlang `.conf` — migrated 2026-08-22 because
