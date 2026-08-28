@@ -16,12 +16,6 @@
 #
 # Functions:
 
-fastfetch() {
-    local logo
-    logo=$(ls ~/.config/fastfetch/star-wars-ascii/*.txt | shuf -n 1)
-    command fastfetch --file "$logo" "$@"
-}
-
 mkdir_cd() {
     mkdir -p -- "$1" &&
     cd -P -- "$1" &&
