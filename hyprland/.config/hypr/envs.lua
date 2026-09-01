@@ -20,8 +20,8 @@ hl.config({
 -- Make Chromium use XCompose and all Wayland
 hl.env("CHROMIUM_FLAGS", "--enable-features=UseOzonePlatform --ozone-platform=wayland --gtk-version=4")
 
--- Make .desktop files available for wofi
-hl.env("XDG_DATA_DIRS", "/usr/share:/usr/local/share:~/.local/share")
+-- Make .desktop files available for wofi (incl. Flatpak app entries)
+hl.env("XDG_DATA_DIRS", "/home/caleb/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/home/caleb/.local/share:/usr/local/share:/usr/share")
 
 -- Use XCompose file
 hl.env("XCOMPOSEFILE", "~/.XCompose")
