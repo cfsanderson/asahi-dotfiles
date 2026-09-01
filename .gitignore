@@ -33,6 +33,13 @@ CLAUDE.local.md
 # Claude Code internal files (worktrees, settings)
 .claude/
 
+# Only the Wallpapers/ dir is tracked under wallpapers/Pictures/. ~/Pictures is
+# a stow target, so if the fold ever comes back (see install.sh step 9) an app
+# writing to ~/Pictures/<anything-else> would drop files into the repo. Ignore
+# everything under wallpapers/Pictures/ except the wallpapers themselves.
+wallpapers/Pictures/*
+!wallpapers/Pictures/Wallpapers/
+
 # systemd --user enablement symlinks (auto-generated machine state, not
 # portable config) -- ~/.config/systemd is a whole-directory stow symlink
 # into vdirsyncer/.config/systemd, so `systemctl --user enable` for ANY

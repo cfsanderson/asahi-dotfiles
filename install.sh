@@ -116,6 +116,13 @@ fi
 
 # --- 9. Stow All Dotfiles ---
 echo "-> Stowing all dotfiles..."
+# Pre-create ~/Pictures as a REAL directory before stowing. The `wallpapers`
+# package is the only one under ~/Pictures, so without this stow folds the
+# whole tree into a single symlink (~/Pictures -> repo/wallpapers/Pictures) and
+# anything an app writes there (e.g. screenshot.sh's ~/Pictures/Screenshots)
+# lands inside the repo checkout. A real ~/Pictures with a real subdir in it
+# blocks the fold, so only ~/Pictures/Wallpapers gets symlinked.
+mkdir -p "$HOME/Pictures/Screenshots"
 # Run stow from a subshell to avoid changing the script's current directory
 (cd ~/Projects/asahi-dotfiles/ && stow -R -t $HOME */)
 
