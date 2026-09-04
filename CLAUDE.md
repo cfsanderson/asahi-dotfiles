@@ -75,6 +75,30 @@ NOT take effect until you re-copy it** — re-run that install.sh step, or manua
 into `~/.config/systemd/user/` and `systemctl --user daemon-reload`. `stow -R` will (correctly)
 refuse to touch these files with a conflict warning; that's expected, not a bug.
 
+### This session is not systemd/UWSM session-integrated — portals must be started manually
+**Gotcha (found 2026-09-04, broke Nautilus's dark-mode detection):** `~/.config/zsh/.zprofile`
+launches Hyprland on tty1 autologin via `exec start-hyprland`, which is only a crash-restart
+watchdog (from the `hyprland-uwsm` package) — it does **not** run a full `uwsm start` session,
+so nothing ever tells systemd a graphical session has begun. As a result `graphical-session.target`
+never activates (`systemctl --user list-units 'wayland-wm*'` shows zero loaded units — confirms
+UWSM isn't managing the session at all), and anything gated on that target — notably
+`xdg-desktop-portal.service` — silently never starts, even though `systemctl --user enable`d
+correctly. `graphical-session.target`/`graphical-session-pre.target` are `RefuseManualStart=yes`,
+so `systemctl --user start` can't be used to force it either.
+
+This breaks any app that relies on the xdg-desktop-portal Settings interface (e.g. libadwaita
+apps reading dark-mode preference — Nautilus, gnome-text-editor, etc.), and would likely also
+affect screen sharing / file-picker portals for sandboxed or portal-aware apps.
+
+Fix in place: `hyprland/.config/hypr/autostart.lua` starts `xdg-desktop-portal-hyprland`,
+`xdg-desktop-portal-gtk`, and `xdg-desktop-portal` directly as plain processes (same pattern as
+`mako`/`waybar`/`hypridle`), bypassing the systemd target dependency entirely.
+`/usr/share/xdg-desktop-portal/hyprland-portals.conf` (`default=hyprland;gtk`) means the `gtk`
+backend handles `Settings` (reads GSettings directly), which is what actually delivers
+`org.gnome.desktop.interface color-scheme` to portal-aware apps. Since `autostart.lua` only runs
+via `hl.on("hyprland.start", ...)` (once per Hyprland process lifetime, not on `hyprctl reload`),
+a change here needs a full Hyprland restart (logout/login or reboot) to take effect.
+
 ### Hyprland Configuration Structure
 Hyprland config is Lua (`hyprland.lua`), not hyprlang `.conf` — migrated 2026-08-22 because
 hyprlang/`.conf` support is dropped in Hyprland 0.57 (this repo tracks 0.56.2). Modularized

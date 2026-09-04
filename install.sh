@@ -126,7 +126,20 @@ mkdir -p "$HOME/Pictures/Screenshots"
 # Run stow from a subshell to avoid changing the script's current directory
 (cd ~/Projects/asahi-dotfiles/ && stow -R -t $HOME */)
 
-# --- 10. Materialize systemd user unit files (not stow-symlinked) ---
+# --- 10. Build bat's theme cache ---
+# bat only reads .tmTheme files from ~/.config/bat/themes/ (now stowed) once
+# they're compiled into ~/.cache/bat/ -- `bat --list-themes` reads the cache,
+# never the themes directory live. Safe to re-run every install.
+echo "-> Building bat theme cache..."
+bat cache --build >/dev/null
+
+# --- 11. Set GTK color scheme to dark (Nautilus, and GTK3/4/libadwaita apps generally) ---
+# Nautilus has no theme setting of its own -- as a GTK4/libadwaita app it
+# follows this shared desktop setting. Idempotent.
+echo "-> Setting GTK color scheme to prefer-dark..."
+gsettings set org.gnome.desktop.interface color-scheme prefer-dark
+
+# --- 12. Materialize systemd user unit files (not stow-symlinked) ---
 echo "-> Copying systemd user units into place (not symlinked -- see CLAUDE.md)..."
 # Systemd requires a unit file's REAL location (after resolving symlinks) to be
 # inside a standard search path, or it treats it as "linked" rather than
@@ -148,12 +161,12 @@ for pkg_unit_dir in ~/Projects/asahi-dotfiles/*/.config/systemd/user; do
 done
 systemctl --user daemon-reload
 
-# --- 11. Enable MPD (Music Player Daemon) ---
+# --- 13. Enable MPD (Music Player Daemon) ---
 echo "-> Enabling MPD service..."
 mkdir -p ~/Music
 systemctl --user enable --now mpd
 
-# --- 12. Install TPM (Tmux Plugin Manager) and Plugins ---
+# --- 14. Install TPM (Tmux Plugin Manager) and Plugins ---
 echo "-> Installing Tmux Plugin Manager..."
 if [ ! -d "$HOME/.tmux/plugins/tpm" ]; then
     git clone https://github.com/tmux-plugins/tpm "$HOME/.tmux/plugins/tpm"
@@ -172,7 +185,7 @@ tmux source-file "$HOME/.config/tmux/tmux.conf"
 tmux kill-session -t __tpm_bootstrap
 
 
-# --- 13. Set Zsh as Default Shell ---
+# --- 15. Set Zsh as Default Shell ---
 if [ "$SHELL" != "/bin/zsh" ]; then
   echo "-> Changing default shell to Zsh..."
   chsh -s $(which zsh)

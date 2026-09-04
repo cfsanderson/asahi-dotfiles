@@ -3,6 +3,18 @@
 -- lifetime (the first render), never again on `hyprctl reload` -- this is
 -- the direct replacement for exec-once.
 hl.on("hyprland.start", function()
+    -- xdg-desktop-portal + backends, started directly rather than relying on
+    -- systemd's graphical-session.target (see the gotcha in CLAUDE.local.md,
+    -- 2026-09-04: this session isn't systemd/UWSM-integrated -- tty1 autologin
+    -- runs start-hyprland, a plain crash-restart watchdog, not `uwsm start` --
+    -- so graphical-session.target never activates and xdg-desktop-portal.service
+    -- silently never starts, which breaks the portal Settings interface that
+    -- libadwaita apps like Nautilus need for dark mode). hyprland-portals.conf
+    -- routes non-Hyprland-native interfaces (e.g. Settings) to the gtk backend.
+    hl.dispatch(hl.dsp.exec_cmd("/usr/libexec/xdg-desktop-portal-hyprland"))
+    hl.dispatch(hl.dsp.exec_cmd("/usr/libexec/xdg-desktop-portal-gtk"))
+    hl.dispatch(hl.dsp.exec_cmd("/usr/libexec/xdg-desktop-portal"))
+
     hl.dispatch(hl.dsp.exec_cmd("mako & waybar"))
     hl.dispatch(hl.dsp.exec_cmd("swaybg -i $HOME/Pictures/Wallpapers/gruvbox-city.jpg"))
     hl.dispatch(hl.dsp.exec_cmd("lxpolkit"))

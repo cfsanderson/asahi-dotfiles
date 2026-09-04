@@ -1,7 +1,7 @@
 @define-color base #1a1919;
 @define-color text #DCC6A3;
 @define-color selected-text #DCC6A3;
-@define-color bg-hover #282828;
+@define-color bg-hover #141617;
 
 * {
   font-family: 'FiraCode Nerd Font', monospace;
@@ -64,6 +64,7 @@ window {
 #entry:selected {
   outline: none;
   border: none;
+  background-color: @bg-hover;
 }
 
 #entry:selected #text {
