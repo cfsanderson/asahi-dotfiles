@@ -17,7 +17,7 @@ PS2="... "  # Cleaner look for bash
 # Aliases moved to ~/.oh-my-zsh/custom/aliases.zsh and accessible with "confalias" alias.
 export ZSH="$HOME/.config/zsh/oh-my-zsh"
 
-ZSH_THEME="agnoster"
+ZSH_THEME=""  # disabled in favor of starship (see the `eval "$(starship init zsh)"` line below)
 
 plugins=(
     asdf
@@ -73,3 +73,6 @@ function y() {
 fastfetch
 # FZF
 # [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# Starship prompt (gruvbox-rainbow preset, recolored -- see ~/.config/starship.toml)
+eval "$(starship init zsh)"

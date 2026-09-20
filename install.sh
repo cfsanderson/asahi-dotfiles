@@ -70,7 +70,24 @@ else
     echo "   yazi already installed, skipping."
 fi
 
-# --- 6. Install keyd (kernel-level key remapper) ---
+# --- 6. Install starship (shell prompt) ---
+# Fedora's repos have no aarch64 build; upstream only ships a musl static
+# binary for aarch64-unknown-linux (no gnu variant), which runs fine on this
+# glibc system since it's statically linked. Same pattern as yazi above.
+STARSHIP_VERSION="v1.26.0"
+if ! command -v starship &>/dev/null; then
+    echo "-> Installing starship..."
+    mkdir -p /tmp/starship ~/.local/bin
+    curl -fL -o /tmp/starship/starship.tar.gz "https://github.com/starship/starship/releases/download/${STARSHIP_VERSION}/starship-aarch64-unknown-linux-musl.tar.gz"
+    tar -xzf /tmp/starship/starship.tar.gz -C /tmp/starship starship
+    cp /tmp/starship/starship ~/.local/bin/
+    chmod +x ~/.local/bin/starship
+    rm -rf /tmp/starship
+else
+    echo "   starship already installed, skipping."
+fi
+
+# --- 7. Install keyd (kernel-level key remapper) ---
 echo "-> Installing keyd from source..."
 if ! command -v keyd &>/dev/null; then
     git clone https://github.com/rvaiya/keyd /tmp/keyd
@@ -85,7 +102,7 @@ sudo mkdir -p /etc/keyd
 sudo cp etc/keyd/default.conf /etc/keyd/default.conf
 sudo systemctl enable --now keyd
 
-# --- 7. Install Maestral (Dropbox client) ---
+# --- 8. Install Maestral (Dropbox client) ---
 # Official Dropbox has no Linux ARM64 build, so this repo uses Maestral (an
 # open-source client) instead -- autostart.lua and waybar's custom/dropbox
 # module both already assume `maestral` is on PATH. Installed via pipx since
@@ -99,7 +116,7 @@ fi
 echo "   NOTE: Maestral still needs to be linked to your Dropbox account --"
 echo "   run 'maestral auth' interactively after this script finishes."
 
-# --- 8. Install Oh My Zsh Custom Plugins ---
+# --- 9. Install Oh My Zsh Custom Plugins ---
 echo "-> Installing custom Oh My Zsh plugins..."
 # The destination needs to be the live directory, not the stowed one
 ZSH_CUSTOM="$HOME/.config/zsh/oh-my-zsh/custom"
@@ -114,7 +131,7 @@ if [ ! -d "${ZSH_CUSTOM}/plugins/zsh-syntax-highlighting" ]; then
 fi
 
 
-# --- 9. Stow All Dotfiles ---
+# --- 10. Stow All Dotfiles ---
 echo "-> Stowing all dotfiles..."
 # Pre-create ~/Pictures as a REAL directory before stowing. The `wallpapers`
 # package is the only one under ~/Pictures, so without this stow folds the
@@ -126,20 +143,20 @@ mkdir -p "$HOME/Pictures/Screenshots"
 # Run stow from a subshell to avoid changing the script's current directory
 (cd ~/Projects/asahi-dotfiles/ && stow -R -t $HOME */)
 
-# --- 10. Build bat's theme cache ---
+# --- 11. Build bat's theme cache ---
 # bat only reads .tmTheme files from ~/.config/bat/themes/ (now stowed) once
 # they're compiled into ~/.cache/bat/ -- `bat --list-themes` reads the cache,
 # never the themes directory live. Safe to re-run every install.
 echo "-> Building bat theme cache..."
 bat cache --build >/dev/null
 
-# --- 11. Set GTK color scheme to dark (Nautilus, and GTK3/4/libadwaita apps generally) ---
+# --- 12. Set GTK color scheme to dark (Nautilus, and GTK3/4/libadwaita apps generally) ---
 # Nautilus has no theme setting of its own -- as a GTK4/libadwaita app it
 # follows this shared desktop setting. Idempotent.
 echo "-> Setting GTK color scheme to prefer-dark..."
 gsettings set org.gnome.desktop.interface color-scheme prefer-dark
 
-# --- 12. Materialize systemd user unit files (not stow-symlinked) ---
+# --- 13. Materialize systemd user unit files (not stow-symlinked) ---
 echo "-> Copying systemd user units into place (not symlinked -- see CLAUDE.md)..."
 # Systemd requires a unit file's REAL location (after resolving symlinks) to be
 # inside a standard search path, or it treats it as "linked" rather than
@@ -161,12 +178,12 @@ for pkg_unit_dir in ~/Projects/asahi-dotfiles/*/.config/systemd/user; do
 done
 systemctl --user daemon-reload
 
-# --- 13. Enable MPD (Music Player Daemon) ---
+# --- 14. Enable MPD (Music Player Daemon) ---
 echo "-> Enabling MPD service..."
 mkdir -p ~/Music
 systemctl --user enable --now mpd
 
-# --- 14. Install TPM (Tmux Plugin Manager) and Plugins ---
+# --- 15. Install TPM (Tmux Plugin Manager) and Plugins ---
 echo "-> Installing Tmux Plugin Manager..."
 if [ ! -d "$HOME/.tmux/plugins/tpm" ]; then
     git clone https://github.com/tmux-plugins/tpm "$HOME/.tmux/plugins/tpm"
@@ -185,7 +202,7 @@ tmux source-file "$HOME/.config/tmux/tmux.conf"
 tmux kill-session -t __tpm_bootstrap
 
 
-# --- 15. Set Zsh as Default Shell ---
+# --- 16. Set Zsh as Default Shell ---
 if [ "$SHELL" != "/bin/zsh" ]; then
   echo "-> Changing default shell to Zsh..."
   chsh -s $(which zsh)
