@@ -35,6 +35,14 @@ cursor() {
   disown
 }
 
+volume() {
+	if ! [[ "$1" =~ ^[0-9]+$ ]] || (( $1 < 0 || $1 > 100 )); then
+		echo "usage: volume <0-100>" >&2
+		return 1
+	fi
+	wpctl set-volume @DEFAULT_AUDIO_SINK@ "$1%"
+}
+
 #===============================================================================
 #
 # General:
