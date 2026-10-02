@@ -81,6 +81,7 @@ alias to=touch_open
 alias tp='trash-put'
 alias vol_up='wpctl set-volume -l 1.0 @DEFAULT_AUDIO_SINK@ 5%+'
 alias vol_down='wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-'
+alias vol_mute='wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle'
 alias waybarreload='pkill -SIGUSR2 waybar'
 alias waybarrestart='pkill waybar; waybar & disown'
 alias wl='hyprctl clients -j | jq -r ".[] | select(.class != \"kitty\") | \"\(.workspace.id)\t\(.class)\t\(.title)\""'
