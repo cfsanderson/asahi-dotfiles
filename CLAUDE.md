@@ -70,7 +70,7 @@ Hyprland config is modularized across multiple files in `hyprland/.config/hypr/`
 - **Window Manager**: Hyprland (Wayland compositor)
 - **Terminal**: Ghostty (replaces Alacritty from Omarchy)
 - **Shell**: Zsh with Oh My Zsh
-- **Browser**: Zen Browser (configured for Wayland)
+- **Browser**: Brave
 - **Editor**: Neovim (Kickstart.nvim fork)
 - **Launcher**: Wofi
 - **Bar**: Waybar

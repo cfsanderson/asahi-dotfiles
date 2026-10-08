@@ -89,7 +89,6 @@ fedora-flathub-remote
 fedora-workstation-repositories
 file
 filesystem
-firefox
 firewall-config
 firewalld
 flac
