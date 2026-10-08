@@ -23,7 +23,6 @@ This is a personal dotfiles repository for Fedora Asahi Linux (Apple Silicon) th
 - `confhypr` - Edit Hyprland configs: `cd hyprland/.config/hypr/ && nvim .`
 - `confnv` - Edit Neovim config: `cd nvim/.config/nvim/ && nvim init.lua`
 - `conftmux` - Edit Tmux config: `cd tmux/.config/tmux/ && nvim .`
-- `confghostty` - Edit Ghostty terminal config: `cd ghostty/.config/ghostty/ && nvim config`
 - `confalias` - Edit shell aliases: `cd zsh/.config/zsh/oh-my-zsh/custom/ && nvim aliases.zsh`
 - `confzsh` - Edit Zsh main config: `cd ~/.config/zsh/ && nvim .zshrc`
 - `music` - Launch rmpc music player (stops MPD on exit)
@@ -38,7 +37,7 @@ The repository uses GNU Stow's directory structure where each top-level director
 - `nvim/` - Neovim configuration (fork of Kickstart.nvim)
 - `zsh/` - Shell configuration with Oh My Zsh
 - `starship/` - Starship prompt config (gruvbox-material powerline; replaces OMZ's agnoster theme)
-- `ghostty/` - Terminal emulator configuration
+- `kitty/` - Terminal emulator configuration
 - `waybar/` - Status bar configuration
 - `wofi/` - Application launcher configuration
 - `tmux/` - Terminal multiplexer configuration
@@ -68,7 +67,7 @@ Hyprland config is modularized across multiple files in `hyprland/.config/hypr/`
 
 ### Key Applications
 - **Window Manager**: Hyprland (Wayland compositor)
-- **Terminal**: Ghostty (replaces Alacritty from Omarchy)
+- **Terminal**: Kitty
 - **Shell**: Zsh with Oh My Zsh
 - **Browser**: Brave
 - **Editor**: Neovim (Kickstart.nvim fork)
