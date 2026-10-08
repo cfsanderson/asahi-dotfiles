@@ -74,6 +74,37 @@ else
 fi
 
 
+# --- 5b2. Install Neovim 0.12+ and tree-sitter CLI (Fedora 43 ships older) ---
+# The nvim config uses vim.pack (needs Neovim 0.12+), and nvim-treesitter
+# needs tree-sitter-cli 0.26.1+. Both go in ~/.local, ahead of /usr/bin on PATH.
+NVIM_VERSION="v0.12.5"
+NVIM_SHA256="1aa5ca085249580ae0f91eb14f27ec0919773ff2d99a163d03f3d6c21ac29725"
+TREESITTER_VERSION="v0.26.13"
+TREESITTER_SHA256="088c5ebf4b4b558c8abfd167c9c4f9669c2f9070da3edd9c0157dc051d77ac5d"
+echo "-> Installing Neovim ${NVIM_VERSION} and tree-sitter ${TREESITTER_VERSION}..."
+if [ ! -x ~/.local/opt/nvim-linux-arm64/bin/nvim ]; then
+    NVIM_TMP=$(mktemp -d)
+    curl -sSL "https://github.com/neovim/neovim/releases/download/${NVIM_VERSION}/nvim-linux-arm64.tar.gz" -o "$NVIM_TMP/nvim.tar.gz"
+    echo "${NVIM_SHA256}  $NVIM_TMP/nvim.tar.gz" | sha256sum -c -
+    mkdir -p ~/.local/opt ~/.local/bin
+    tar xzf "$NVIM_TMP/nvim.tar.gz" -C ~/.local/opt
+    ln -sf ~/.local/opt/nvim-linux-arm64/bin/nvim ~/.local/bin/nvim
+    rm -rf "$NVIM_TMP"
+else
+    echo "   Neovim already installed in ~/.local/opt, skipping."
+fi
+if [ ! -x ~/.local/bin/tree-sitter ]; then
+    TS_TMP=$(mktemp -d)
+    curl -sSL "https://github.com/tree-sitter/tree-sitter/releases/download/${TREESITTER_VERSION}/tree-sitter-linux-arm64.gz" -o "$TS_TMP/tree-sitter.gz"
+    echo "${TREESITTER_SHA256}  $TS_TMP/tree-sitter.gz" | sha256sum -c -
+    gunzip "$TS_TMP/tree-sitter.gz"
+    install -m755 "$TS_TMP/tree-sitter" ~/.local/bin/tree-sitter
+    rm -rf "$TS_TMP"
+else
+    echo "   tree-sitter already installed in ~/.local/bin, skipping."
+fi
+
+
 # --- 5c. Install tmux plugins ---
 echo "-> Installing tmux plugin manager and catppuccin theme..."
 if [ ! -d ~/.tmux/plugins/tpm ]; then
