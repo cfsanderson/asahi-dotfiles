@@ -57,6 +57,35 @@ if [ ! -d "${ZSH_CUSTOM}/plugins/zsh-syntax-highlighting" ]; then
 fi
 
 
+# --- 5b. Install Starship prompt (not packaged in Fedora repos) ---
+STARSHIP_VERSION="v1.26.0"
+echo "-> Installing Starship ${STARSHIP_VERSION}..."
+if ! command -v starship &>/dev/null; then
+    STARSHIP_TMP=$(mktemp -d)
+    STARSHIP_URL="https://github.com/starship/starship/releases/download/${STARSHIP_VERSION}/starship-$(uname -m)-unknown-linux-musl.tar.gz"
+    curl -sSL "$STARSHIP_URL" -o "$STARSHIP_TMP/starship.tar.gz"
+    echo "$(curl -sSL "$STARSHIP_URL.sha256")  $STARSHIP_TMP/starship.tar.gz" | sha256sum -c -
+    tar xzf "$STARSHIP_TMP/starship.tar.gz" -C "$STARSHIP_TMP"
+    mkdir -p ~/.local/bin
+    install -m755 "$STARSHIP_TMP/starship" ~/.local/bin/starship
+    rm -rf "$STARSHIP_TMP"
+else
+    echo "   starship already installed, skipping."
+fi
+
+
+# --- 5c. Install tmux plugins ---
+echo "-> Installing tmux plugin manager and catppuccin theme..."
+if [ ! -d ~/.tmux/plugins/tpm ]; then
+    git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+fi
+# catppuccin/tmux is loaded via `run` in tmux.conf, not TPM (TPM's clean would
+# delete it), so it lives outside TPM's plugin dir.
+if [ ! -d ~/.local/share/tmux/plugins/catppuccin/tmux ]; then
+    git clone --depth 1 --branch v2.3.1 https://github.com/catppuccin/tmux ~/.local/share/tmux/plugins/catppuccin/tmux
+fi
+
+
 # --- 6. Stow All Dotfiles ---
 echo "-> Stowing all dotfiles..."
 # Run stow from a subshell to avoid changing the script's current directory

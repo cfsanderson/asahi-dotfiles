@@ -16,7 +16,9 @@
 #
 # Functions:
 
-fastfetch() {
+# fastfetch with a random Star Wars logo (plain `fastfetch` uses the Asahi
+# logo from ~/.config/fastfetch/config.jsonc)
+swfetch() {
     local logo
     logo=$(ls ~/.config/fastfetch/star-wars-ascii/*.txt | shuf -n 1)
     command fastfetch --file "$logo" "$@"

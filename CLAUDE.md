@@ -37,6 +37,7 @@ The repository uses GNU Stow's directory structure where each top-level director
 - `hyprland/` - Window manager configuration (modular config split across multiple files)
 - `nvim/` - Neovim configuration (fork of Kickstart.nvim)
 - `zsh/` - Shell configuration with Oh My Zsh
+- `starship/` - Starship prompt config (gruvbox-material powerline; replaces OMZ's agnoster theme)
 - `ghostty/` - Terminal emulator configuration
 - `waybar/` - Status bar configuration
 - `wofi/` - Application launcher configuration

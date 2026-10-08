@@ -17,7 +17,7 @@ PS2="... "  # Cleaner look for bash
 # Aliases moved to ~/.oh-my-zsh/custom/aliases.zsh and accessible with "confalias" alias.
 export ZSH="$HOME/.config/zsh/oh-my-zsh"
 
-ZSH_THEME="agnoster"
+ZSH_THEME="" # prompt is handled by starship (see end of file)
 
 plugins=(
     asdf
@@ -69,6 +69,9 @@ function y() {
 
 # asdf version manager (system installation)
 # asdf is installed system-wide via pacman
+
+# Starship prompt (config: ~/.config/starship.toml)
+eval "$(starship init zsh)"
 
 fastfetch
 # FZF
