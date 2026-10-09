@@ -26,7 +26,7 @@ exec(mainMod .. " + T",      apps.terminal .. " -e btop")
 exec(mainMod .. " + D",      apps.terminal .. " -e lazydocker")
 exec(mainMod .. " + G",      apps.messenger)
 exec(mainMod .. " + S",      "signal-desktop")
-exec(mainMod .. " + O",      "flatpak run md.obsidian.Obsidian --force-device-scale-factor=2")
+exec(mainMod .. " + O",      "flatpak run md.obsidian.Obsidian")
 
 exec(mainMod .. " + space",         scripts .. "launch-wofi.sh")
 exec(mainMod .. " + SHIFT + SPACE", "pkill -SIGUSR1 waybar")
