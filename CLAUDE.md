@@ -54,17 +54,19 @@ The repository uses GNU Stow's directory structure where each top-level director
 - `wallpapers/` - Desktop wallpapers
 
 ### Hyprland Configuration Structure
-Hyprland config is modularized across multiple files in `hyprland/.config/hypr/`:
-- `hyprland.conf` - Main config file that sources all others
-- `monitors.conf` - Machine-specific monitor configuration (must be created manually)
-- `autostart.conf` - Applications to start with Hyprland
-- `bindings.conf` - Keyboard shortcuts and bindings
-- `envs.conf` - Environment variables
-- `input.conf` - Input device configuration
-- `looknfeel.conf` - Appearance and animation settings
-- `windows.conf` - Window rules and workspace settings
-- `theme.conf` - Color scheme and theming
-- `scripts/` - Helper scripts (e.g., launch-wofi.sh, handle-monitor.sh)
+Hyprland config uses the Lua format (`.conf`/hyprlang is deprecated as of Hyprland 0.55+), modularized across files in `hyprland/.config/hypr/`:
+- `hyprland.lua` - Main config file that `require`s all the modules below
+- `apps.lua` - Default applications (terminal, browser, etc.) shared by other modules
+- `monitors.lua` - Machine-specific monitor configuration
+- `autostart.lua` - Applications to start with Hyprland (`hyprland.start` event)
+- `bindings.lua` - Keyboard shortcuts and bindings
+- `envs.lua` - Environment variables
+- `input.lua` - Input device configuration
+- `looknfeel.lua` - Appearance and animation settings
+- `windows.lua` - Window and layer rules
+- `theme.lua` - Color scheme and theming
+- `scripts/` - Helper scripts (e.g., launch-wofi.sh, handle-monitor.sh). Scripts that call `hyprctl dispatch` must pass Lua, e.g. `hyprctl dispatch 'hl.dsp.focus({ workspace = "3" })'`
+- `hypridle.conf` / `hyprlock.conf` - Still hyprlang; those are separate tools with their own config format
 
 ### Key Applications
 - **Window Manager**: Hyprland (Wayland compositor)
@@ -84,7 +86,7 @@ Uses a custom fork of Sainnhe's Gruvbox Material theme for consistent theming ac
 
 ## Critical Setup Requirements
 
-1. **Monitor Configuration**: Before stowing configs, create `~/.config/hypr/monitors.conf` with machine-specific monitor settings. Use `hyprctl monitors` to find monitor names. The included config has the M1 Max MacBook Pro internal display and Dell U2720QM 4K via HDMI, bottom-edge aligned (the shorter laptop display is offset downward so the bases line up). See the [Hyprland monitor docs](https://wiki.hypr.land/Configuring/Monitors/) for position syntax. Workspaces are dynamically assigned: laptop-only gets all 10, plugging in the external monitor moves workspaces 6-10 to it (handled by `scripts/handle-monitor.sh` via Hyprland IPC socket events).
+1. **Monitor Configuration**: Before stowing configs, create `~/.config/hypr/monitors.lua` with machine-specific monitor settings. Use `hyprctl monitors` to find monitor names. The included config has the M1 Max MacBook Pro internal display and Dell U2720QM 4K via HDMI, bottom-edge aligned (the shorter laptop display is offset downward so the bases line up). See the [Hyprland monitor docs](https://wiki.hypr.land/Configuring/Monitors/) for position syntax. Workspaces are dynamically assigned: laptop-only gets all 10, plugging in the external monitor moves workspaces 6-10 to it (handled by `scripts/handle-monitor.sh` via Hyprland IPC socket events).
 
 5. **Peripheral Boot Limitation (Asahi Linux)**: USB-C dongles and HDMI monitors must be plugged in **after boot**, not before. U-Boot's XHCI driver hangs on multi-function USB hubs, and the DCP DP2HDMI bridge fails to initialize external displays at boot. Both work fine when hot-plugged after the desktop loads.
 

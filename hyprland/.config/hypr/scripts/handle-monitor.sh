@@ -10,9 +10,9 @@
 #   handle-monitor.sh switch N     - Switch to workspace N on its assigned monitor
 #   handle-monitor.sh movetoworkspace N - Move active window to workspace N on its assigned monitor
 #
-# NOTE: Do NOT use `hyprctl keyword workspace` rules — they poison the workspace
+# NOTE: Do NOT use workspace rules (formerly `hyprctl keyword workspace`) — they poison the workspace
 # dispatcher and override focusmonitor for all future workspace creation.
-# Instead, rely solely on focusmonitor + workspace dispatch + moveworkspacetomonitor.
+# Instead, rely solely on focus({monitor}) + focus({workspace}) + workspace.move.
 
 set -euo pipefail
 
@@ -53,14 +53,14 @@ arrange_workspaces() {
     # Move existing workspaces to their assigned monitors
     if [[ "$external_present" -ge 1 ]]; then
         for ws in "${LAPTOP_WORKSPACES[@]}"; do
-            hyprctl dispatch moveworkspacetomonitor "$ws $LAPTOP" > /dev/null 2>&1
+            hyprctl dispatch "hl.dsp.workspace.move({ workspace = \"$ws\", monitor = \"$LAPTOP\" })" > /dev/null 2>&1
         done
         for ws in "${EXTERNAL_WORKSPACES[@]}"; do
-            hyprctl dispatch moveworkspacetomonitor "$ws $EXTERNAL" > /dev/null 2>&1
+            hyprctl dispatch "hl.dsp.workspace.move({ workspace = \"$ws\", monitor = \"$EXTERNAL\" })" > /dev/null 2>&1
         done
     else
         for ws in "${LAPTOP_WORKSPACES[@]}" "${EXTERNAL_WORKSPACES[@]}"; do
-            hyprctl dispatch moveworkspacetomonitor "$ws $LAPTOP" > /dev/null 2>&1
+            hyprctl dispatch "hl.dsp.workspace.move({ workspace = \"$ws\", monitor = \"$LAPTOP\" })" > /dev/null 2>&1
         done
     fi
 
@@ -69,8 +69,8 @@ arrange_workspaces() {
         local mon_name=${line%%:*}
         local ws_id=${line##*:}
         if echo "$monitors" | jq -e ".[] | select(.name == \"$mon_name\")" > /dev/null 2>&1; then
-            hyprctl dispatch focusmonitor "$mon_name" > /dev/null 2>&1
-            hyprctl dispatch workspace "$ws_id" > /dev/null 2>&1
+            hyprctl dispatch "hl.dsp.focus({ monitor = \"$mon_name\" })" > /dev/null 2>&1
+            hyprctl dispatch "hl.dsp.focus({ workspace = \"$ws_id\" })" > /dev/null 2>&1
         fi
     done <<< "$active_workspaces"
 }
@@ -80,13 +80,13 @@ switch_workspace() {
     local ws=$1
     local mon
     mon=$(target_monitor "$ws")
-    hyprctl --batch "dispatch focusmonitor $mon; dispatch workspace $ws" > /dev/null 2>&1
+    hyprctl eval "hl.dispatch(hl.dsp.focus({ monitor = \"$mon\" })); hl.dispatch(hl.dsp.focus({ workspace = \"$ws\" }))" > /dev/null 2>&1
 }
 
 # Move active window to workspace on its assigned monitor (used by keybindings)
 move_to_workspace() {
     local ws=$1
-    hyprctl dispatch movetoworkspace "$ws" > /dev/null 2>&1
+    hyprctl dispatch "hl.dsp.window.move({ workspace = \"$ws\" })" > /dev/null 2>&1
 }
 
 listen() {
