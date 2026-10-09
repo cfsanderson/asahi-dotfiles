@@ -15,7 +15,12 @@ hl.on("hyprland.start", function()
     hl.dispatch(hl.dsp.exec_cmd("/usr/libexec/xdg-desktop-portal-gtk"))
     hl.dispatch(hl.dsp.exec_cmd("/usr/libexec/xdg-desktop-portal"))
 
-    hl.dispatch(hl.dsp.exec_cmd("mako & waybar"))
+    hl.dispatch(hl.dsp.exec_cmd("mako"))
+    -- Respawn loop: hyprland.start fires once per Hyprland lifetime, so a bare
+    -- `waybar` is never relaunched if it exits (e.g. after a KVM/monitor
+    -- hotplug). Hyprland's exec env includes HYPRLAND_INSTANCE_SIGNATURE.
+    -- To restart manually, just `pkill waybar` -- the loop brings it back.
+    hl.dispatch(hl.dsp.exec_cmd("sh -c 'while true; do waybar; sleep 1; done'"))
     hl.dispatch(hl.dsp.exec_cmd("swaybg -i $HOME/Pictures/Wallpapers/gruvbox-city.jpg"))
     hl.dispatch(hl.dsp.exec_cmd("lxpolkit"))
 
