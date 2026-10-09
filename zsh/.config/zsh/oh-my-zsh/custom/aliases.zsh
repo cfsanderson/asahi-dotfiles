@@ -78,6 +78,7 @@ alias sourz='source $HOME/Projects/asahi-dotfiles/zsh/.config/zsh/.zshrc && clea
 alias spotify='brave-browser --app=https://open.spotify.com'
 alias st='nmcli connection show --active && speedtest-cli'
 alias stowr='cd ~/Projects/asahi-dotfiles/ && stow -R -t $HOME */'
+alias sysup='sudo dnf upgrade -y && flatpak update -y'
 alias ssh_asahi-mini='ssh caleb@asahi-mini.local'
 alias ssh_omarchy='ssh caleb@omarchy.local'
 alias ssh_stravapi='ssh caleb@strava-fulcrum-bridge.local'

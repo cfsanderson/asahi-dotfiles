@@ -12,6 +12,7 @@ This is a personal dotfiles repository for Fedora Asahi Linux (Apple Silicon) th
 - `./install.sh` - Main installation script that installs packages, plugins, and stows all dotfiles
 - `fedorapack` - Alias to rebuild package lists (updates packages-dnf.txt, packages-flatpak.txt, packages-copr.txt)
 - `stowr` - Alias to re-stow all dotfiles: `cd ~/Projects/asahi-dotfiles/ && stow -R -t $HOME */`
+- `sysup` - Alias to update everything: `sudo dnf upgrade -y && flatpak update -y` (Signal is a user Flatpak from the `signal-flatpak` remote, so dnf alone misses it)
 
 ### Package Management
 - Package lists are stored in `packages/packages-dnf.txt` (dnf), `packages/packages-flatpak.txt` (Flatpak), and `packages/packages-copr.txt` (COPR repos)
