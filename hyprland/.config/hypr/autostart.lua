@@ -24,7 +24,7 @@ hl.on("hyprland.start", function()
     hl.dispatch(hl.dsp.exec_cmd("swaybg -i $HOME/Pictures/Wallpapers/gruvbox-city.jpg"))
     hl.dispatch(hl.dsp.exec_cmd("lxpolkit"))
 
-    -- Dynamic workspace-to-monitor assignment (1-5 laptop, 6-10 external)
+    -- Dynamic workspace-to-monitor assignment + single/dual profiles (see script)
     hl.dispatch(hl.dsp.exec_cmd("~/.config/hypr/scripts/handle-monitor.sh listen"))
     hl.dispatch(hl.dsp.exec_cmd("~/.config/hypr/scripts/handle-monitor.sh arrange"))
 

@@ -47,7 +47,8 @@ hl.bind("SUPER + k", hl.dsp.focus({ direction = "up" }))
 hl.bind("SUPER + j", hl.dsp.focus({ direction = "down" }))
 
 -- Switch workspaces with mainMod + [0-9]
--- Uses handle-monitor.sh to focus the correct monitor first (1-5 laptop, 6-10 external)
+-- Uses handle-monitor.sh to focus the correct monitor first (dual profile:
+-- 1-5 primary, 6-10 secondary; single profile: all on primary)
 local switchWs = "~/.config/hypr/scripts/handle-monitor.sh switch"
 hl.bind("SUPER + 1", hl.dsp.exec_cmd(switchWs .. " 1"))
 hl.bind("SUPER + 2", hl.dsp.exec_cmd(switchWs .. " 2"))
@@ -59,6 +60,9 @@ hl.bind("SUPER + 7", hl.dsp.exec_cmd(switchWs .. " 7"))
 hl.bind("SUPER + 8", hl.dsp.exec_cmd(switchWs .. " 8"))
 hl.bind("SUPER + 9", hl.dsp.exec_cmd(switchWs .. " 9"))
 hl.bind("SUPER + 0", hl.dsp.exec_cmd(switchWs .. " 10"))
+
+-- Cycle monitor layout profile: auto -> single -> dual -> auto
+hl.bind("SUPER + CTRL + M", hl.dsp.exec_cmd("~/.config/hypr/scripts/handle-monitor.sh profile cycle"))
 
 -- Move active window to a workspace with mainMod + SHIFT + [0-9]
 hl.bind("SUPER + SHIFT + 1", hl.dsp.window.move({ workspace = "1" }))
